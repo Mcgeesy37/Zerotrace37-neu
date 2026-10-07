@@ -3,15 +3,83 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="ZeroTrace37: Security-Audits, Penetrationstests, OSINT und Dark-Web-Monitoring aus Berlin.">
-<title>ZeroTrace37 | IT-Sicherheit aus Berlin</title>
+<title>Penetration Testing &amp; IT-Forensik Berlin | ZeroTrace37</title>
+<meta name="description" content="ZeroTrace37 aus Berlin: Penetration Testing, Incident Response, Betrugsermittlung, OSINT-Datenleck-Check und Spyware-Scan. Deutschlandweit, vertraulich, 24/7-Notfall-Hotline.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://zerotrace37.com/">
+<meta name="theme-color" content="#050706">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/site.webmanifest">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="de_DE">
+<meta property="og:site_name" content="ZeroTrace37">
+<meta property="og:title" content="ZeroTrace37 – Cybersecurity &amp; digitale Forensik aus Berlin">
+<meta property="og:description" content="Penetration Testing, Incident Response, Betrugsermittlung und OSINT-Datenleck-Check. Deutschlandweit, vertraulich, 24/7 erreichbar.">
+<meta property="og:url" content="https://zerotrace37.com/">
+<meta property="og:image" content="https://zerotrace37.com/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ZeroTrace37 – Cybersecurity &amp; digitale Forensik aus Berlin">
+<meta name="twitter:description" content="Penetration Testing, Incident Response, Betrugsermittlung und OSINT-Datenleck-Check. 24/7 erreichbar.">
+<meta name="twitter:image" content="https://zerotrace37.com/og-image.jpg">
+<link rel="preload" as="image" href="clips/1.jpg" fetchpriority="high">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://zerotrace37.com/#organization",
+      "name": "ZeroTrace37",
+      "description": "Cybersecurity und digitale Forensik aus Berlin: Penetration Testing, Incident Response, Betrugsermittlung, OSINT- und Datenleck-Checks, Spyware-Scans.",
+      "url": "https://zerotrace37.com/",
+      "image": "https://zerotrace37.com/og-image.jpg",
+      "logo": "https://zerotrace37.com/favicon.svg",
+      "telephone": "+4917670683230",
+      "email": "root@zerotrace37.com",
+      "address": { "@type": "PostalAddress", "addressLocality": "Berlin", "addressCountry": "DE" },
+      "areaServed": { "@type": "Country", "name": "Deutschland" },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+        "opens": "00:00", "closes": "23:59"
+      },
+      "sameAs": ["https://tracekeeper.gumroad.com"],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Leistungen",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Penetration Testing", "url": "https://zerotrace37.com/penetration-testing.html" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Incident Response", "url": "https://zerotrace37.com/incident-response.html" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Betrugsermittlung", "url": "https://zerotrace37.com/betrugsermittlung.html" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "OSINT & Datenleck-Check", "url": "https://zerotrace37.com/osint-leak-check.html" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Spyware-Scan", "url": "https://zerotrace37.com/forensik.html" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Privatpersonen-Schutz", "url": "https://zerotrace37.com/privatpersonen-schutz.html" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Rechtliche Begleitung", "url": "https://zerotrace37.com/rechtliche-begleitung.html" } }
+        ]
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://zerotrace37.com/#website",
+      "url": "https://zerotrace37.com/",
+      "name": "ZeroTrace37",
+      "inLanguage": "de",
+      "publisher": { "@id": "https://zerotrace37.com/#organization" }
+    }
+  ]
+}
+</script>
 <style>
-/* Layout: one fixed full-viewport stage (the trace) behind six scroll stations; text column left, visual right. Single dark look by choice. */
+/* Layout: one fixed full-viewport film stage behind scroll stations; text column left, film right. Single dark look by choice. */
 :root{
   color-scheme:dark;
-  --bg:#050706; --surface:#0b100d; --line:#1a2620;
-  --fg:#e6efe9; --muted:#8c9c93;
+  --bg:#050706; --surface:rgba(11,16,13,.86); --line:#1f2d26;
+  --fg:#e6efe9; --muted:#9aaba1;
   --accent:#00ff88; --alert:#ff4d4d;
   --display:"Archivo","Arial Narrow",Arial,sans-serif;
   --body:"Archivo",Arial,sans-serif;
@@ -20,42 +88,53 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.6;overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.6;overflow-x:hidden}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+[hidden]{display:none!important}
 
 #stage{position:fixed;inset:0;z-index:0;background:var(--bg)}
 #stage video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .9s ease}
 #stage video.on{opacity:1}
 .scrim{position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:linear-gradient(90deg,rgba(5,7,6,.94) 0%,rgba(5,7,6,.8) 40%,rgba(5,7,6,.15) 78%)}
+  background:linear-gradient(90deg,rgba(5,7,6,.94) 0%,rgba(5,7,6,.78) 40%,rgba(5,7,6,.08) 80%)}
 
 .top{position:fixed;top:0;left:0;right:0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:16px;
-  padding:calc(14px + env(safe-area-inset-top,0px)) var(--gutter) 14px;
+  padding:calc(14px + env(safe-area-inset-top,0px)) var(--gutter) 18px;
   background:linear-gradient(var(--bg),rgba(5,7,6,0))}
 .brand{font-family:var(--display);font-stretch:125%;font-weight:800;letter-spacing:.06em;font-size:15px;text-decoration:none}
 .brand b{color:var(--accent);font-weight:800}
+.menu{display:flex;align-items:center;gap:22px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.menu a{text-decoration:none;color:var(--muted)}
+.menu a:hover{color:var(--accent)}
 .btn{display:inline-block;font-family:var(--mono);font-size:13px;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;
   padding:12px 18px;border:1px solid var(--accent);color:var(--bg);background:var(--accent);cursor:pointer;transition:background .2s,color .2s}
 .btn:hover{background:transparent;color:var(--accent)}
 .btn.ghost{background:transparent;color:var(--fg);border-color:var(--line)}
 .btn.ghost:hover{border-color:var(--accent);color:var(--accent)}
-.top .btn{padding:9px 14px;font-size:12px}
+.menu .btn{padding:9px 14px;font-size:12px;color:var(--bg)}
+.menu .btn:hover{color:var(--accent)}
 
 main{position:relative;z-index:1}
 .station{min-height:100vh;display:flex;align-items:center;padding-block:110px;padding-inline:var(--gutter)}
-.copy{max-width:560px;min-width:0;display:flex;flex-direction:column;gap:22px}
-.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+.copy{max-width:580px;min-width:0;display:flex;flex-direction:column;gap:22px}
+.copy.wide{max-width:1080px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin:0}
 h1,h2{font-family:var(--display);font-stretch:112%;font-weight:700;line-height:1.02;letter-spacing:-.02em;margin:0;text-wrap:balance}
 h1{font-size:clamp(40px,7.2vw,88px)}
 h2{font-size:clamp(32px,5vw,60px)}
+h3{font-family:var(--display);font-stretch:112%;font-weight:700;font-size:20px;margin:0}
 p{margin:0;color:var(--muted);max-width:60ch}
 p.lead{color:var(--fg);font-size:19px}
 .row{display:flex;flex-wrap:wrap;gap:12px}
+.more{font-family:var(--mono);font-size:13px;letter-spacing:.04em;color:var(--accent);text-decoration:none;align-self:flex-start;border-bottom:1px solid transparent}
+.more:hover{border-bottom-color:var(--accent)}
 .gets{list-style:none;margin:0;padding:0;border-top:1px solid var(--line);font-family:var(--mono);font-size:13px}
 .gets li{padding:11px 0;border-bottom:1px solid var(--line);display:flex;gap:14px}
 .gets li::before{content:">";color:var(--accent)}
 
+.term{margin:0;border:1px solid var(--line);background:var(--surface);font-family:var(--mono);font-size:13px;line-height:1.7;padding:12px 14px;white-space:pre-wrap;overflow-wrap:anywhere}
+.term .c{color:var(--muted)}.term .ok{color:var(--accent)}.term .al{color:var(--alert)}
 .finding{border:1px solid var(--line);background:var(--surface);font-family:var(--mono);font-size:13px}
 .finding header{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted)}
 .finding .sev{color:var(--alert)}
@@ -63,95 +142,113 @@ p.lead{color:var(--fg);font-size:19px}
 .finding dt{color:var(--muted)}
 .finding dd{margin:0;min-width:0}
 
-.term{margin:0;border:1px solid var(--line);background:rgba(11,16,13,.85);font-family:var(--mono);font-size:13px;line-height:1.7;padding:12px 14px;white-space:pre-wrap;overflow-wrap:anywhere}
-.term .c{color:var(--muted)}.term .ok{color:var(--accent)}.term .al{color:var(--alert)}
-.steps{list-style:none;margin:0;padding:0;counter-reset:s;display:flex;flex-direction:column}
-.steps li{counter-increment:s;display:grid;grid-template-columns:44px 1fr;gap:4px 0;padding:12px 0;border-bottom:1px solid var(--line)}
-.steps li::before{content:counter(s,decimal-leading-zero);font-family:var(--mono);font-size:12px;color:var(--accent);padding-top:4px}
-.steps strong{font-weight:600}
-.steps span{grid-column:2;color:var(--muted);font-size:15px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.card{display:flex;flex-direction:column;gap:10px;padding:20px;border:1px solid var(--line);background:var(--surface);text-decoration:none;min-width:0;transition:border-color .2s}
+.card:hover{border-color:var(--accent)}
+.card p{font-size:15px}
+.card span{font-family:var(--mono);font-size:12px;color:var(--accent);margin-top:auto}
 
+.shop{border:1px solid var(--accent);background:var(--surface);padding:clamp(20px,3vw,32px);display:flex;flex-direction:column;gap:16px;max-width:580px}
+.tags{display:flex;flex-wrap:wrap;gap:8px;font-family:var(--mono);font-size:12px;color:var(--accent)}
+.tags span{border:1px solid var(--line);padding:4px 9px}
+
+.contact{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:28px;align-items:start}
+.direct{display:flex;flex-direction:column;border-top:1px solid var(--line);font-family:var(--mono);font-size:14px}
+.direct div{display:flex;flex-direction:column;gap:2px;padding:12px 0;border-bottom:1px solid var(--line)}
+.direct small{color:var(--muted);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.direct a{text-decoration:none;color:var(--fg);user-select:all}
+.direct a:hover{color:var(--accent)}
 form{display:flex;flex-direction:column;gap:14px;border:1px solid var(--line);background:var(--surface);padding:20px;font-family:var(--mono);font-size:14px}
 label{display:flex;flex-direction:column;gap:6px;color:var(--muted);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+label.check{flex-direction:row;align-items:flex-start;gap:10px;text-transform:none;letter-spacing:0;font-size:13px;line-height:1.5}
+label.check input{width:auto;margin-top:3px}
 input,select,textarea{font:inherit;font-size:16px;letter-spacing:0;text-transform:none;color:var(--fg);background:var(--bg);border:1px solid var(--line);padding:11px 12px;border-radius:0;width:100%}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent)}
 textarea{min-height:96px;resize:vertical}
-#out{color:var(--accent);white-space:pre-wrap;margin:0;font-size:13px}
+#status{margin:0;font-size:13px;color:var(--accent)}
+#status.err{color:var(--alert)}
 
-footer{position:relative;z-index:1;padding:28px var(--gutter) 90px;border-top:1px solid var(--line);font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:8px 24px;background:var(--bg)}
+footer{position:relative;z-index:1;padding:44px var(--gutter) 96px;border-top:1px solid var(--line);background:var(--bg);
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:28px;font-size:14px}
+footer h4{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 10px;font-weight:500}
+footer a,footer span{display:block;color:var(--muted);text-decoration:none;padding:3px 0}
+footer a:hover{color:var(--accent)}
+footer .legal{grid-column:1/-1;font-family:var(--mono);font-size:12px;border-top:1px solid var(--line);padding-top:18px}
 
 .hud{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;align-items:center;gap:16px;
   padding:12px var(--gutter) calc(12px + env(safe-area-inset-bottom,0px));
   font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
-  background:linear-gradient(rgba(5,7,6,0),var(--bg) 60%);font-variant-numeric:tabular-nums}
+  background:linear-gradient(rgba(5,7,6,0),var(--bg) 60%);font-variant-numeric:tabular-nums;pointer-events:none}
 .hud b{color:var(--accent);font-weight:500}
 .bar{flex:1;height:1px;background:var(--line);position:relative;min-width:40px}
 .bar i{position:absolute;left:0;top:-1px;height:3px;width:0;background:var(--accent)}
-.ph{white-space:nowrap}
 
-@media (max-width:760px){
+@media (max-width:860px){
   body{font-size:16px}
-  .scrim{background:linear-gradient(rgba(5,7,6,.7),rgba(5,7,6,.86))}
+  .scrim{background:linear-gradient(rgba(5,7,6,.5),rgba(5,7,6,.84))}
   .station{padding-block:90px}
-  .ph{display:none}
+  .menu a:not(.btn){display:none}
+  .contact{grid-template-columns:minmax(0,1fr)}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
-<body style="margin:0">
+<body>
 
 <div id="stage" aria-hidden="true">
-  <video muted loop playsinline preload="auto" poster="clips/1.jpg" class="on"><source src="clips/1.mp4" type="video/mp4"><source src="https://d8j0ntlcm91z4.cloudfront.net/user_3FChx5WXLy8y12Ce3etPH90KSLq/hf_20261007_103529_3353d8a9-c301-4199-b883-e8aeeb8f4a9b.mp4" type="video/mp4"></video>
-  <video muted loop playsinline preload="none" poster="clips/2.jpg"><source src="clips/2.mp4" type="video/mp4"><source src="https://d8j0ntlcm91z4.cloudfront.net/user_3FChx5WXLy8y12Ce3etPH90KSLq/hf_20261007_103529_5768bfd3-6409-45c3-9c29-c07dd6ddae09.mp4" type="video/mp4"></video>
-  <video muted loop playsinline preload="none" poster="clips/3.jpg"><source src="clips/3.mp4" type="video/mp4"><source src="https://d8j0ntlcm91z4.cloudfront.net/user_3FChx5WXLy8y12Ce3etPH90KSLq/hf_20261007_103530_f49f47f9-8285-4b98-99f7-764af394ada0.mp4" type="video/mp4"></video>
-  <video muted loop playsinline preload="none" poster="clips/4.jpg"><source src="clips/4.mp4" type="video/mp4"><source src="https://d8j0ntlcm91z4.cloudfront.net/user_3FChx5WXLy8y12Ce3etPH90KSLq/hf_20261007_103529_e4c83c72-5897-4afd-bafb-2dc995464fca.mp4" type="video/mp4"></video>
-  <video muted loop playsinline preload="none" poster="clips/5.jpg"><source src="clips/5.mp4" type="video/mp4"><source src="https://d8j0ntlcm91z4.cloudfront.net/user_3FChx5WXLy8y12Ce3etPH90KSLq/hf_20261007_103529_0e7800f5-dddc-4577-8ba7-b3de31f3124d.mp4" type="video/mp4"></video>
+  <video muted loop playsinline preload="metadata" poster="clips/1.jpg" class="on"><source src="clips/1.mp4" type="video/mp4"></video>
+  <video muted loop playsinline preload="none" poster="clips/2.jpg"><source src="clips/2.mp4" type="video/mp4"></video>
+  <video muted loop playsinline preload="none" poster="clips/3.jpg"><source src="clips/3.mp4" type="video/mp4"></video>
+  <video muted loop playsinline preload="none" poster="clips/4.jpg"><source src="clips/4.mp4" type="video/mp4"></video>
+  <video muted loop playsinline preload="none" poster="clips/5.jpg"><source src="clips/5.mp4" type="video/mp4"></video>
   <video muted loop playsinline preload="none" poster="https://d8j0ntlcm91z4.cloudfront.net/user_3FChx5WXLy8y12Ce3etPH90KSLq/hf_20261007_103204_32f1720c-1dbd-4aa2-a6d9-c51732cd4938_min.webp"><source src="clips/6.mp4" type="video/mp4"><source src="https://d8j0ntlcm91z4.cloudfront.net/user_3FChx5WXLy8y12Ce3etPH90KSLq/hf_20261007_103529_911fd493-58d9-4980-8b92-59e4c3cff1c2.mp4" type="video/mp4"></video>
 </div>
 <div class="scrim"></div>
 
-<div class="top">
-  <a class="brand" href="#start">ZERO<b>TRACE</b>37</a>
-  <a class="btn" href="#kontakt">Erstgespräch</a>
-</div>
+<header class="top">
+  <a class="brand" href="#home" aria-label="ZeroTrace37 Startseite">ZERO<b>TRACE</b>37</a>
+  <nav class="menu" aria-label="Hauptnavigation">
+    <a href="#services">Leistungen</a>
+    <a href="#shop">Security-Tools</a>
+    <a href="#contact">Kontakt</a>
+    <a class="btn" href="tel:+4917670683230">Notfall 24/7</a>
+  </nav>
+</header>
 
 <main>
-  <section class="station" id="start" data-name="Spur">
+  <section class="station" id="home" data-clip="0" data-name="Spur">
     <div class="copy">
-      <div class="eyebrow">IT-Sicherheit aus Berlin</div>
+      <p class="eyebrow">Cybersecurity &amp; digitale Forensik · Berlin</p>
       <h1 data-decode>Wir folgen der Spur, bevor es ein Angreifer tut.</h1>
-      <p class="lead">Audits, Penetrationstests, OSINT und Dark-Web-Monitoring für Unternehmen, die wissen wollen, wo sie wirklich stehen.</p>
+      <p class="lead">Penetration Testing, Incident Response und Betrugsermittlung für Unternehmen und Privatpersonen. Deutschlandweit, vertraulich, 24/7 erreichbar.</p>
       <div class="row">
-        <a class="btn" href="#kontakt">Erstgespräch anfragen</a>
-        <a class="btn ghost" href="#osint">Der Spur folgen</a>
+        <a class="btn" href="#contact">Hilfe jetzt anfragen</a>
+        <a class="btn ghost" href="#services">Unsere Leistungen</a>
       </div>
     </div>
   </section>
 
-  <section class="station" id="osint" data-name="OSINT">
+  <div id="services">
+  <section class="station" id="osint" data-clip="1" data-name="OSINT">
     <div class="copy">
-      <div class="eyebrow">OSINT</div>
+      <p class="eyebrow">OSINT &amp; Datenleck-Check</p>
       <h2 data-decode>Was das Netz über Sie weiß.</h2>
-      <p>Wir sammeln, was öffentlich über Ihr Unternehmen auffindbar ist: Domains, Subdomains, Konten von Mitarbeitenden, vergessene Systeme. Sie sehen Ihre Angriffsfläche so, wie ein Angreifer sie sieht.</p>
+      <p>Wir prüfen, welche Ihrer Daten in Breach-Datenbanken, Suchmaschinen oder im Darknet auffindbar sind. Sie sehen Ihre Angriffsfläche so, wie ein Angreifer sie sieht, auf Wunsch mit Doxx-Schutz-Paket.</p>
       <pre class="term"><span class="c"># Beispielausgabe (fiktiv)</span>
 <span class="ok">[+]</span> 14 Subdomains gefunden
 <span class="ok">[+]</span> 3 vergessene Testsysteme erreichbar
-<span class="al">[!]</span> 27 Mitarbeiter-Adressen in bekannten Leaks
+<span class="al">[!]</span> 27 E-Mail-Adressen in bekannten Leaks
 <span class="al">[!]</span> 1 offenes Admin-Panel</pre>
-      <ul class="gets">
-        <li>Karte Ihrer öffentlichen Angriffsfläche</li>
-        <li>Liste exponierter Konten und Systeme</li>
-        <li>Sofortmaßnahmen, nach Risiko sortiert</li>
-      </ul>
+      <a class="more" href="osint-leak-check.html">Zum OSINT &amp; Datenleck-Check →</a>
     </div>
   </section>
 
-  <section class="station" id="pentest" data-name="Pentest">
+  <section class="station" id="pentest" data-clip="2" data-name="Pentest">
     <div class="copy">
-      <div class="eyebrow">Penetrationstest</div>
+      <p class="eyebrow">Penetration Testing</p>
       <h2 data-decode>Wir brechen ein. Mit Auftrag.</h2>
-      <p>Ein kontrollierter Angriff auf Web-Anwendungen, APIs und Infrastruktur, schriftlich freigegeben und sauber abgegrenzt. Jeder Befund kommt mit Nachweis, Risikoeinstufung und Reparaturanleitung.</p>
-      <div class="finding" style="background:rgba(11,16,13,.85)">
+      <p>Black-, Grey- und White-Box-Tests für Web-Anwendungen, Netzwerke und Infrastruktur nach OWASP- und PTES-Methodik, mit schriftlichem Rules-of-Engagement-Freigabeverfahren.</p>
+      <div class="finding">
         <header><span>Beispielbefund (fiktiv)</span><span class="sev">Kritisch</span></header>
         <dl>
           <dt>Befund</dt><dd>Admin-Login über vergessene Subdomain erreichbar, ohne zweiten Faktor</dd>
@@ -159,66 +256,133 @@ footer{position:relative;z-index:1;padding:28px var(--gutter) 90px;border-top:1p
           <dt>Maßnahme</dt><dd>Subdomain abschalten, 2FA erzwingen</dd>
         </dl>
       </div>
+      <a class="more" href="penetration-testing.html">Zum Penetration Testing →</a>
     </div>
   </section>
 
-  <section class="station" id="darkweb" data-name="Dark Web">
+  <section class="station" id="betrug" data-clip="3" data-name="Betrug">
     <div class="copy">
-      <div class="eyebrow">Dark-Web-Monitoring</div>
-      <h2 data-decode>Wissen, wenn Ihre Daten gehandelt werden.</h2>
-      <p>Wir überwachen Leak-Quellen und Marktplätze laufend auf Ihre Domains, Zugangsdaten und Markennamen. Taucht etwas auf, erhalten Sie einen Alarm mit klarer Handlungsempfehlung.</p>
-      <pre class="term"><span class="c"># Beispielalarm (fiktiv)</span>
-<span class="al">[ALARM]</span> Zugangsdaten zum Verkauf entdeckt
-Quelle    Marktplatz im Tor-Netz
-Betroffen 3 Konten Ihrer Domain
-<span class="ok">Empfehlung</span> Passwörter sofort zurücksetzen</pre>
+      <p class="eyebrow">Betrugsermittlung</p>
+      <h2 data-decode>Wir folgen den Tätern.</h2>
+      <p>Aktive Unterstützung bei Cyberbetrug, Online-Banking-Betrug, CEO-Fraud, Krypto-Betrug und Identitätsdiebstahl: Sofortmaßnahmen, Spurensicherung und Täterermittlung.</p>
       <ul class="gets">
-        <li>Laufende Überwachung Ihrer Domains</li>
-        <li>Alarm bei geleakten Zugangsdaten</li>
-        <li>Monatlicher Lagebericht</li>
+        <li>Sofortmaßnahmen in den ersten Stunden</li>
+        <li>Spurensicherung, die vor Gericht verwertbar ist</li>
+        <li>Täterermittlung über OSINT und digitale Forensik</li>
       </ul>
+      <a class="more" href="betrugsermittlung.html">Zur Betrugsermittlung →</a>
     </div>
   </section>
 
-  <section class="station" id="audit" data-name="Audit">
+  <section class="station" id="incident" data-clip="4" data-name="Incident">
     <div class="copy">
-      <div class="eyebrow">Security-Audit</div>
-      <h2 data-decode>Aus dem Chaos wird ein Bericht.</h2>
-      <p>Am Ende steht ein Dokument, mit dem Geschäftsführung und IT beide arbeiten können: eine Zusammenfassung für die Entscheidung, ein technischer Teil für die Umsetzung.</p>
-      <ol class="steps">
-        <li><strong>Erstgespräch</strong><span>Ziele und Umfang festlegen</span></li>
-        <li><strong>Freigabe</strong><span>Schriftliche Beauftragung und Testfenster</span></li>
-        <li><strong>Prüfung</strong><span>Analyse und Tests im vereinbarten Rahmen</span></li>
-        <li><strong>Bericht</strong><span>Befunde, Risiken, Maßnahmen, gemeinsame Besprechung</span></li>
-        <li><strong>Nachtest</strong><span>Kontrolle, ob die Lücken geschlossen sind</span></li>
-      </ol>
+      <p class="eyebrow">Incident Response</p>
+      <h2 data-decode>Angriff läuft? Wir übernehmen.</h2>
+      <p>Sofortreaktion bei Cyberangriffen: Schadensbegrenzung, forensische Analyse und Wiederherstellung. Optional als Retainer mit garantierter Reaktionszeit.</p>
+      <div class="row">
+        <a class="btn" href="tel:+4917670683230">Jetzt anrufen: +49 176 70683230</a>
+      </div>
+      <a class="more" href="incident-response.html">Zur Incident Response →</a>
     </div>
   </section>
 
-  <section class="station" id="kontakt" data-name="Kontakt">
-    <div class="copy">
-      <div class="eyebrow">Kontakt</div>
-      <h2 data-decode>Die Spur endet hier.</h2>
-      <p>Beschreiben Sie kurz Ihr Anliegen. Sie erhalten eine Rückmeldung mit Terminvorschlag für ein Erstgespräch.</p>
-      <form id="req" novalidate>
-        <label for="f-name">Name<input id="f-name" name="name" autocomplete="name" required></label>
-        <label for="f-firma">Unternehmen<input id="f-firma" name="firma" autocomplete="organization"></label>
-        <label for="f-mail">E-Mail<input id="f-mail" name="mail" type="email" autocomplete="email" required></label>
-        <label for="f-topic">Anliegen
-          <select id="f-topic" name="topic">
-            <option>Security-Audit</option><option>Penetrationstest</option><option>OSINT</option><option>Dark-Web-Monitoring</option><option>Noch unklar</option>
-          </select>
-        </label>
-        <label for="f-msg">Nachricht<textarea id="f-msg" name="msg"></textarea></label>
-        <button class="btn" type="submit">Anfrage absenden</button>
-        <pre id="out" hidden></pre>
-      </form>
+  <section class="station" id="schutz" data-clip="5" data-name="Schutz">
+    <div class="copy wide">
+      <p class="eyebrow">Weitere Leistungen</p>
+      <h2 data-decode>Schutz für Menschen, nicht nur für Systeme.</h2>
+      <div class="cards">
+        <a class="card" href="privatpersonen-schutz.html">
+          <h3>Privatpersonen-Schutz</h3>
+          <p>Stalking, Doxxing, Romance Scam, Erpressung: Wir helfen Privatpersonen diskret und effektiv.</p>
+          <span>Mehr erfahren →</span>
+        </a>
+        <a class="card" href="forensik.html">
+          <h3>Spyware-Scan</h3>
+          <p>Forensischer Malware- und Spyware-Check für iOS und Android mit dem MVT-Toolkit. Findet Stalkerware und Staatstrojaner.</p>
+          <span>Mehr erfahren →</span>
+        </a>
+        <a class="card" href="rechtliche-begleitung.html">
+          <h3>Rechtliche Begleitung</h3>
+          <p>Beweissicherung nach juristischen Standards, Unterstützung bei Anzeigenstellung und Behördenkommunikation.</p>
+          <span>Mehr erfahren →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+  </div>
+
+  <section class="station" id="shop" data-clip="5" data-name="Tools">
+    <div class="shop">
+      <p class="eyebrow">Security-Tools · Shop</p>
+      <h2 data-decode>Werkzeuge für Ihr eigenes Audit.</h2>
+      <p>Single-File-Werkzeuge für eigene Audits, OSINT und DSGVO-Checks. Sofort einsetzbar, einmal kaufen, kein Abo.</p>
+      <div class="tags"><span>Sofort einsetzbar</span><span>Kein Abo</span><span>Läuft lokal</span></div>
+      <div class="row">
+        <a class="btn" href="https://tracekeeper.gumroad.com" target="_blank" rel="noopener">Zum Shop auf Gumroad</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="station" id="contact" data-clip="5" data-name="Kontakt">
+    <div class="copy wide">
+      <p class="eyebrow">Kontakt</p>
+      <h2 data-decode>Jetzt Hilfe anfragen.</h2>
+      <div class="contact">
+        <div class="copy">
+          <p>Wurden Sie gerade angegriffen? Rufen Sie an. Für alles andere genügt eine kurze Nachricht, wir melden uns kurzfristig.</p>
+          <div class="direct">
+            <div><small>Notfall-Hotline · 24/7</small><a href="tel:+4917670683230">+49 176 70683230</a></div>
+            <div><small>E-Mail</small><a href="mailto:root@zerotrace37.com">root@zerotrace37.com</a></div>
+            <div><small>Signal / Threema</small><span>auf Anfrage</span></div>
+          </div>
+        </div>
+        <form id="contactForm" action="https://formspree.io/f/xdawolnz" method="POST">
+          <label for="f-name">Name<input id="f-name" name="name" autocomplete="name" required></label>
+          <label for="f-mail">E-Mail<input id="f-mail" name="email" type="email" autocomplete="email" required></label>
+          <label for="f-topic">Anliegen
+            <select id="f-topic" name="service">
+              <option>Betrugsermittlung</option><option>Penetration Testing</option><option>Incident Response</option><option>OSINT &amp; Datenleck-Check</option><option>Privatpersonen-Schutz</option><option>Spyware-Scan</option><option>Rechtliche Begleitung</option>
+            </select>
+          </label>
+          <label for="f-msg">Nachricht<textarea id="f-msg" name="message" required></textarea></label>
+          <label class="check" for="f-ok"><input id="f-ok" name="consent" type="checkbox" required><span>Ich habe die <a href="datenschutz.html">Datenschutzerklärung</a> gelesen und stimme der Verarbeitung meiner Angaben zur Bearbeitung der Anfrage zu.</span></label>
+          <button class="btn" type="submit">Anfrage senden</button>
+          <p id="status" role="status" hidden></p>
+        </form>
+      </div>
     </div>
   </section>
 </main>
 
 <footer>
-  <span>© ZeroTrace37 · Berlin</span><span>zerotrace37.com</span><span>Impressum</span><span>Datenschutz</span>
+  <div>
+    <h4>ZeroTrace37</h4>
+    <span>Ihr Partner gegen Cyberkriminalität. Berlin, deutschlandweit im Einsatz.</span>
+  </div>
+  <nav aria-label="Leistungen">
+    <h4>Leistungen</h4>
+    <a href="penetration-testing.html">Penetration Testing</a>
+    <a href="incident-response.html">Incident Response</a>
+    <a href="betrugsermittlung.html">Betrugsermittlung</a>
+    <a href="osint-leak-check.html">OSINT &amp; Datenleck-Check</a>
+    <a href="forensik.html">Spyware-Scan</a>
+    <a href="privatpersonen-schutz.html">Privatpersonen-Schutz</a>
+    <a href="rechtliche-begleitung.html">Rechtliche Begleitung</a>
+  </nav>
+  <nav aria-label="Rechtliches und Shop">
+    <h4>Rechtliches</h4>
+    <a href="impressum.html">Impressum</a>
+    <a href="datenschutz.html">Datenschutz</a>
+    <a href="agb.html">AGB</a>
+    <a href="https://tracekeeper.gumroad.com" target="_blank" rel="noopener">Security-Tools (Shop)</a>
+  </nav>
+  <div>
+    <h4>Kontakt</h4>
+    <a href="tel:+4917670683230">+49 176 70683230</a>
+    <a href="mailto:root@zerotrace37.com">root@zerotrace37.com</a>
+    <span>Signal auf Anfrage</span>
+  </div>
+  <span class="legal">© 2026 ZeroTrace37 · Alle Rechte vorbehalten</span>
 </footer>
 
 <div class="hud" aria-hidden="true">
@@ -233,23 +397,26 @@ Betroffen 3 Konten Ihrer Domain
   var secs = [].slice.call(document.querySelectorAll('.station'));
   var vids = [].slice.call(document.querySelectorAll('#stage video'));
   var hudN = document.getElementById('hud-n'), hudName = document.getElementById('hud-name'), hudBar = document.getElementById('hud-bar');
-  var cur = -1, ticking = false;
+  var curSec = -1, curClip = -1, ticking = false;
+  function top(el){ return el.getBoundingClientRect().top + window.scrollY; }
   function update(){
     ticking = false;
     var mid = window.scrollY + window.innerHeight/2, k = 0;
-    for (var j=0;j<secs.length;j++) if (secs[j].offsetTop <= mid) k = j;
+    for (var j=0;j<secs.length;j++) if (top(secs[j]) <= mid) k = j;
     var max = document.documentElement.scrollHeight - window.innerHeight;
     hudBar.style.width = (max>0 ? window.scrollY/max*100 : 0) + '%';
-    if (k === cur) return;
-    cur = k;
-    hudN.textContent = '0'+(k+1); hudName.textContent = secs[k].dataset.name;
+    if (k === curSec) return;
+    curSec = k;
+    var c = +secs[k].dataset.clip;
+    hudN.textContent = '0'+(c+1); hudName.textContent = secs[k].dataset.name;
+    if (c === curClip) return;
+    curClip = c;
     vids.forEach(function(v,i){
-      v.classList.toggle('on', i===k);
-      if (i===k){ if (!reduce){ var p = v.play(); if (p && p.catch) p.catch(function(){}); } }
+      v.classList.toggle('on', i===c);
+      if (i===c){ if (!reduce){ var p = v.play(); if (p && p.catch) p.catch(function(){}); } }
       else v.pause();
     });
-    // warm up the next clip
-    var n = vids[k+1]; if (n && n.preload === 'none'){ n.preload = 'auto'; n.load(); }
+    var n = vids[c+1]; if (n && n.preload === 'none'){ n.preload = 'auto'; n.load(); }
   }
   addEventListener('scroll', function(){ if(!ticking){ ticking = true; requestAnimationFrame(update); } }, {passive:true});
   addEventListener('resize', update);
@@ -274,16 +441,23 @@ Betroffen 3 Konten Ihrer Domain
     document.querySelectorAll('[data-decode]').forEach(function(el){ io.observe(el); });
   }
 
-  // contact form: preview only, nothing is sent
-  document.getElementById('req').addEventListener('submit', function(e){
+  // contact form: real submission via Formspree
+  var form = document.getElementById('contactForm'), status = document.getElementById('status');
+  form.addEventListener('submit', function(e){
     e.preventDefault();
-    var f = e.target, out = document.getElementById('out');
-    if (!f.name.value.trim() || !f.mail.validity.valid || !f.mail.value){
-      out.textContent = '> Bitte Name und eine gültige E-Mail-Adresse eintragen.';
-    } else {
-      out.textContent = '> Anfrage erfasst: ' + f.topic.value + '\n> Vorschau: Das Formular ist noch nicht angebunden, es wurde nichts versendet.';
-    }
-    out.hidden = false;
+    var btn = form.querySelector('button[type="submit"]');
+    status.hidden = false; status.className = ''; status.textContent = '> Wird übermittelt …';
+    btn.disabled = true;
+    fetch(form.action, { method:'POST', body:new FormData(form), headers:{ 'Accept':'application/json' } })
+      .then(function(r){
+        btn.disabled = false;
+        if (r.ok){ status.textContent = '> Nachricht gesendet. Wir melden uns kurzfristig.'; form.reset(); }
+        else { status.className = 'err'; status.textContent = '> Übermittlung fehlgeschlagen. Bitte per E-Mail an root@zerotrace37.com senden.'; }
+      })
+      .catch(function(){
+        btn.disabled = false; status.className = 'err';
+        status.textContent = '> Verbindungsfehler. Bitte per E-Mail an root@zerotrace37.com senden.';
+      });
   });
 })();
 </script>

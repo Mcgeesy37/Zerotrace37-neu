@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AGB — ZeroTrace37</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="theme-color" content="#00ff88" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-deep:      #020408;
+      --bg-card:      #080d14;
+      --neon-green:   #00ff88;
+      --neon-cyan:    #00e5ff;
+      --neon-red:     #ff2d55;
+      --neon-yellow:  #ffd60a;
+      --text-primary: #e2f0f0;
+      --text-muted:   #556070;
+      --border:       rgba(0,255,136,0.15);
+      --font-mono:    'Share Tech Mono', monospace;
+      --font-display: 'Orbitron', sans-serif;
+      --font-body:    'Exo 2', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,255,136,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,136,0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 2px,
+        rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%;
+      height: 70px;
+      background: rgba(2,4,8,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.2rem;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      display: flex; align-items: center; gap: 2px;
+    }
+
+    .logo-bracket { color: var(--neon-green); opacity: 0.7; }
+    .logo-text { color: var(--text-primary); }
+    .logo-text .accent { color: var(--neon-green); }
+    .logo-blink { color: var(--neon-green); animation: blink 1s step-end infinite; }
+
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    .nav-back {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.3s;
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    .nav-back:hover { color: var(--neon-green); }
+
+    .page-hero {
+      position: relative; z-index: 1;
+      padding: 120px 5% 60px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(0,255,136,0.03) 0%, transparent 100%);
+    }
+
+    .page-tag {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--neon-green);
+      letter-spacing: 0.2em;
+      margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    .page-tag::before {
+      content: '';
+      display: inline-block;
+      width: 30px; height: 1px;
+      background: var(--neon-green);
+    }
+
+    .page-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--neon-green) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.8rem;
+    }
+
+    .page-sub {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+    }
+
+    .content-wrapper {
+      position: relative; z-index: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 60px 5% 100px;
+    }
+
+    .legal-block {
+      margin-bottom: 2.5rem;
+      padding: 2rem 2rem 2rem 1.5rem;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--neon-green);
+      background: var(--bg-card);
+      position: relative;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: blockReveal 0.6s ease forwards;
+    }
+
+    .legal-block:nth-child(1)  { animation-delay: 0.03s; }
+    .legal-block:nth-child(2)  { animation-delay: 0.06s; }
+    .legal-block:nth-child(3)  { animation-delay: 0.09s; }
+    .legal-block:nth-child(4)  { animation-delay: 0.12s; }
+    .legal-block:nth-child(5)  { animation-delay: 0.15s; }
+    .legal-block:nth-child(6)  { animation-delay: 0.18s; }
+    .legal-block:nth-child(7)  { animation-delay: 0.21s; }
+    .legal-block:nth-child(8)  { animation-delay: 0.24s; }
+    .legal-block:nth-child(9)  { animation-delay: 0.27s; }
+    .legal-block:nth-child(10) { animation-delay: 0.30s; }
+
+    @keyframes blockReveal {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .legal-block.warning { border-left-color: var(--neon-yellow); }
+
+    .block-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--neon-green);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+      opacity: 0.8;
+    }
+
+    .legal-block.warning .block-label { color: var(--neon-yellow); }
+
+    .legal-block h2 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+
+    .legal-block p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.9;
+      margin-bottom: 0.8rem;
+    }
+
+    .legal-block p:last-child { margin-bottom: 0; }
+
+    .legal-block ul {
+      list-style: none;
+      padding: 0;
+      margin: 0.8rem 0;
+    }
+
+    .legal-block ul li {
+      color: var(--text-muted);
+      font-size: 0.87rem;
+      line-height: 1.8;
+      padding: 0.3rem 0 0.3rem 1.2rem;
+      position: relative;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+
+    .legal-block ul li:last-child { border-bottom: none; }
+
+    .legal-block ul li::before {
+      content: '›';
+      position: absolute; left: 0;
+      color: var(--neon-green);
+      font-family: var(--font-mono);
+    }
+
+    .legal-block a {
+      color: var(--neon-cyan);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .legal-block a:hover { color: var(--neon-green); }
+
+    .notice-box {
+      background: rgba(0,229,255,0.05);
+      border: 1px solid rgba(0,229,255,0.2);
+      padding: 1rem 1.2rem;
+      margin-top: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--neon-cyan);
+      line-height: 1.7;
+    }
+
+    .page-footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 5%;
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+    }
+
+    .page-footer span { color: var(--text-muted); }
+    .page-footer a { color: var(--neon-green); text-decoration: none; }
+
+    .footer-pulse { color: var(--neon-green); animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    @media (max-width: 600px) {
+      .page-footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+<meta name="description" content="Allgemeine Geschäftsbedingungen von ZeroTrace37 für Leistungen in Cybersecurity, Penetration Testing und digitaler Forensik.">
+<link rel="canonical" href="https://zerotrace37.com/agb.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ZeroTrace37">
+<meta property="og:locale" content="de_DE">
+<meta property="og:title" content="AGB — ZeroTrace37">
+<meta property="og:description" content="Allgemeine Geschäftsbedingungen von ZeroTrace37 für Leistungen in Cybersecurity, Penetration Testing und digitaler Forensik.">
+<meta property="og:url" content="https://zerotrace37.com/agb.html">
+<meta property="og:image" content="https://zerotrace37.com/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Start", "item": "https://zerotrace37.com/"}, {"@type": "ListItem", "position": 2, "name": "AGB", "item": "https://zerotrace37.com/agb.html"}]}]}</script>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-bracket">[</span>
+      <span class="logo-text">ZERO<span class="accent">TRACE37</span></span>
+      <span class="logo-bracket">]</span>
+      <span class="logo-blink">_</span>
+    </a>
+    <a href="index.html" class="nav-back">← Zurück zur Hauptseite</a>
+  </nav>
+
+  <div class="page-hero">
+    <div class="page-tag">// RECHTLICHES</div>
+    <h1 class="page-title">AGB</h1>
+    <p class="page-sub">Allgemeine Geschäftsbedingungen</p>
+  </div>
+
+  <main class="content-wrapper">
+
+    <div class="legal-block">
+      <div class="block-label">§ 01</div>
+      <h2>Geltungsbereich</h2>
+      <p>
+        Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für alle Verträge zwischen Zerotrace37
+        (nachfolgend „Auftragnehmer") und dessen Auftraggebern über die Erbringung von Leistungen im
+        Bereich Cybersecurity, insbesondere Penetration Testing, Sicherheitsaudits, Incident Response,
+        Betrugsermittlung und verwandte Beratungsleistungen.
+      </p>
+      <p>
+        Abweichende, entgegenstehende oder ergänzende Geschäftsbedingungen des Auftraggebers werden
+        nur dann Vertragsbestandteil, wenn der Auftragnehmer ihrer Geltung ausdrücklich schriftlich
+        zugestimmt hat.
+      </p>
+    </div>
+
+    <div class="legal-block">
+      <div class="block-label">§ 02</div>
+      <h2>Vertragsschluss</h2>
+      <p>
+        Der Vertrag kommt durch schriftliches Angebot des Auftragnehmers und dessen schriftliche
+        Annahme durch den Auftraggeber zustande, etwa per E-Mail oder mittels eines gesondert
+        unterzeichneten Auftragsformulars. Mündliche Nebenabreden bestehen nicht.
+      </p>
+      <p>
+        Bei Leistungen mit Bezug zu IT-Systemen Dritter (insbesondere Penetration Testing) ist
+        zusätzlich ein gesondertes Autorisierungsdokument (Rules of Engagement) erforderlich, das
+        Umfang, Zeitfenster und ausdrückliche Freigabe des Systeminhabers regelt.
+      </p>
+    </div>
+
+    <div class="legal-block">
+      <div class="block-label">§ 03</div>
+      <h2>Leistungsumfang</h2>
+      <p>
+        Art, Umfang und Ausführung der jeweiligen Leistung ergeben sich aus dem individuellen Angebot
+        bzw. der Leistungsbeschreibung des Einzelauftrags. Der Auftragnehmer erbringt seine Leistungen
+        nach dem aktuellen Stand der Technik und den anerkannten Regeln der IT-Sicherheit.
+      </p>
+      <ul>
+        <li>Penetration Tests werden ausschließlich innerhalb des vereinbarten Testfensters und Scopes durchgeführt</li>
+        <li>Änderungen des Leistungsumfangs bedürfen der schriftlichen Vereinbarung beider Parteien</li>
+        <li>Ergebnisse werden in Form eines schriftlichen Berichts mit Schweregrad-Einstufung übergeben</li>
+      </ul>
+      <div class="notice-box">
+        ⚠ Sicherheitstests gegen Systeme Dritter erfolgen ausschließlich nach vorheriger schriftlicher
+        Autorisierung durch den nachweislich Berechtigten. Ohne diese Freigabe wird keine Leistung erbracht.
+      </div>
+    </div>
+
+    <div class="legal-block">
+      <div class="block-label">§ 04</div>
+      <h2>Mitwirkungspflichten des Auftraggebers</h2>
+      <p>
+        Der Auftraggeber stellt sicher, dass er zur Erteilung der Testfreigabe berechtigt ist, und
+        stellt dem Auftragnehmer alle für die Leistungserbringung erforderlichen Informationen,
+        Zugänge und Ansprechpartner rechtzeitig zur Verfügung. Verzögerungen, die auf unzureichender
+        Mitwirkung beruhen, gehen nicht zulasten des Auftragnehmers.
+      </p>
+    </div>
+
+    <div class="legal-block">
+      <div class="block-label">§ 05</div>
+      <h2>Vergütung und Zahlungsbedingungen</h2>
+      <p>
+        Die Vergütung richtet sich nach dem individuellen Angebot. Rechnungen sind, sofern nicht
+        anders vereinbart, innerhalb von 14 Tagen nach Rechnungsstellung ohne Abzug fällig.
+      </p>
+      <p>
+        Bei Zahlungsverzug ist der Auftragnehmer berechtigt, Verzugszinsen in gesetzlicher Höhe zu
+        berechnen sowie die weitere Leistungserbringung bis zum Ausgleich offener Forderungen
+        auszusetzen.
+      </p>
+    </div>
+
+    <div class="legal-block">
+      <div class="block-label">§ 06</div>
+      <h2>Vertraulichkeit</h2>
+      <p>
+        Beide Parteien verpflichten sich, alle im Rahmen der Zusammenarbeit erlangten vertraulichen
+        Informationen, insbesondere Geschäfts- und Betriebsgeheimnisse sowie Erkenntnisse aus
+        Sicherheitsanalysen, streng vertraulich zu behandeln und nicht an Dritte weiterzugeben.
+      </p>
+      <p>
+        Diese Verpflichtung gilt über das Ende des Vertragsverhältnisses hinaus fort. Auf Wunsch des
+        Auftraggebers wird zusätzlich eine gesonderte Vertraulichkeitsvereinbarung (NDA) abgeschlossen.
+      </p>
+    </div>
+
+    <div class="legal-block">
+      <div class="block-label">§ 07</div>
+      <h2>Gewährleistung</h2>
+      <p>
+        Der Auftragnehmer erbringt seine Leistungen nach bestem Wissen und aktuellem Stand der
+        Sicherheitsforschung. Ein Penetration Test oder Audit stellt eine Momentaufnahme dar und
+        garantiert keine vollständige Freiheit von Sicherheitslücken, auch nicht für nach
+        Testabschluss vorgenommene Änderungen am System.
+      </p>
+      <p>
+        Beanstandungen der Leistung sind unverzüglich, spätestens innerhalb von 14 Tagen nach
+        Übergabe des Ergebnisberichts, schriftlich mitzuteilen.
+      </p>
+    </div>
+
+    <div class="legal-block warning">
+      <div class="block-label">§ 08</div>
+      <h2>Haftung</h2>
+      <p>
+        Der Auftragnehmer haftet unbeschränkt für Vorsatz und grobe Fahrlässigkeit sowie nach den
+        Vorschriften des Produkthaftungsgesetzes. Für leichte Fahrlässigkeit haftet der
+        Auftragnehmer nur bei Verletzung wesentlicher Vertragspflichten (Kardinalpflichten) und
+        begrenzt auf den vertragstypisch vorhersehbaren Schaden.
+      </p>
+      <p>
+        Bei Penetration Tests und Sicherheitsanalysen besteht ein Restrisiko technischer
+        Beeinträchtigungen der getesteten Systeme (z. B. Instabilität, kurzzeitige Nichtverfügbarkeit).
+        Dieses Risiko wird vor Testbeginn im Rahmen der Autorisierung ausdrücklich besprochen und vom
+        Auftraggeber akzeptiert.
+      </p>
+    </div>
+
+    <div class="legal-block">
+      <div class="block-label">§ 09</div>
+      <h2>Laufzeit und Kündigung</h2>
+      <p>
+        Einzelaufträge enden mit vollständiger Leistungserbringung. Bei fortlaufenden
+        Leistungsverhältnissen (z. B. Retainer, Monitoring) gilt die im Angebot vereinbarte
+        Kündigungsfrist. Das Recht zur außerordentlichen Kündigung aus wichtigem Grund bleibt
+        unberührt.
+      </p>
+    </div>
+
+    <div class="legal-block">
+      <div class="block-label">§ 10</div>
+      <h2>Schlussbestimmungen</h2>
+      <p>
+        Es gilt das Recht der Bundesrepublik Deutschland unter Ausschluss des UN-Kaufrechts.
+        Gerichtsstand für alle Streitigkeiten aus diesem Vertragsverhältnis ist, soweit gesetzlich
+        zulässig, der Sitz des Auftragnehmers.
+      </p>
+      <p>
+        Sollten einzelne Bestimmungen dieser AGB unwirksam sein oder werden, bleibt die Wirksamkeit
+        der übrigen Bestimmungen unberührt. An die Stelle der unwirksamen Bestimmung tritt eine
+        Regelung, die dem wirtschaftlichen Zweck der unwirksamen Bestimmung am nächsten kommt.
+      </p>
+      <p>
+        <strong style="color: var(--text-primary);">Stand: August 2026</strong>
+      </p>
+    </div>
+
+  </main>
+
+  <footer class="page-footer">
+    <span>© 2026 Zerotrace37 — Alle Rechte vorbehalten</span>
+    <span class="footer-pulse">// ENCRYPTED CONNECTION ACTIVE</span>
+    <a href="impressum.html">Impressum</a>
+  </footer>
+
+</body>
+</html>

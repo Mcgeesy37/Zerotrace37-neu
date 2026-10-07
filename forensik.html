@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spyware- &amp; Malware-Forensik-Scan — ZeroTrace37</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="manifest" href="/site.webmanifest" />
+<meta name="theme-color" content="#00ff88" />
+<meta name="description" content="Forensischer Spyware- und Malware-Scan für iOS und Android mit dem MVT-Toolkit. Findet Stalkerware und Staatstrojaner wie Pegasus. Vertraulich, verschlüsselt, Berlin-basiert." />
+<link rel="canonical" href="https://zerotrace37.com/forensik.html" />
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap');
+
+:root{
+  --bg:#0A0C0E;
+  --panel:#101414;
+  --panel-line:#1c2226;
+  --alert:#E8352B;
+  --alert-dim:rgba(232,53,43,0.5);
+  --scan:#35E8B4;
+  --text:#EDEFF1;
+  --muted:#8A949B;
+  --muted2:#5c6a70;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  line-height:1.5;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none;}
+.wrap{max-width:1160px;margin:0 auto;padding:0 32px;}
+
+/* background scan grid */
+.grid-bg{
+  position:fixed; inset:0; z-index:-2;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size:38px 38px;
+}
+.glow-a{position:fixed; top:-200px; right:-200px; width:700px; height:700px; z-index:-1;
+  background:radial-gradient(circle, rgba(53,232,180,0.08), transparent 65%); }
+.glow-b{position:fixed; bottom:-250px; left:-250px; width:800px; height:800px; z-index:-1;
+  background:radial-gradient(circle, rgba(232,53,43,0.07), transparent 65%); }
+
+/* ===== NAV ===== */
+header.nav{
+  position:sticky; top:0; z-index:50;
+  backdrop-filter:blur(10px);
+  background:rgba(10,12,14,0.85);
+  border-bottom:1px solid var(--panel-line);
+}
+.nav-inner{display:flex; align-items:center; justify-content:space-between; padding:18px 32px; max-width:1160px; margin:0 auto;}
+.nav-logo{font-family:'Oswald',sans-serif; font-weight:700; font-size:19px; letter-spacing:1.5px;}
+.nav-logo .dot{color:var(--scan);}
+.nav-links{display:flex; align-items:center; gap:34px; font-size:14.5px; color:var(--muted);}
+.nav-links a:hover{color:var(--text);}
+.nav-links .home-link{
+  font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--scan);
+  border:1px solid rgba(53,232,180,0.35); padding:5px 11px; border-radius:4px;
+}
+.nav-links .home-link:hover{ background:rgba(53,232,180,0.1); color:var(--scan); }
+.nav-cta{
+  font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:700;
+  color:var(--bg); background:var(--scan);
+  padding:10px 18px; border-radius:4px; letter-spacing:0.5px;
+}
+@media(max-width:760px){ .nav-links a:not(.home-link){display:none;} }
+
+/* ===== HERO ===== */
+.hero{padding:96px 0 70px; position:relative;}
+.hero-grid{display:grid; grid-template-columns:1.15fr 0.85fr; gap:50px; align-items:center;}
+.case-tag{
+  display:inline-flex; align-items:center; gap:9px;
+  border:1px solid var(--alert-dim); color:var(--alert);
+  font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:700; letter-spacing:1.5px;
+  padding:7px 13px; background:rgba(232,53,43,0.06); margin-bottom:26px;
+}
+.case-tag .dot{width:6px;height:6px;border-radius:50%;background:var(--alert);box-shadow:0 0 8px var(--alert);}
+h1{
+  font-family:'Oswald',sans-serif; font-weight:700; text-transform:uppercase;
+  font-size:clamp(38px,5.4vw,64px); line-height:1.02; letter-spacing:0.3px;
+}
+h1 .hl{color:var(--alert);}
+.hero p.lead{margin-top:22px; font-size:18px; color:var(--muted); max-width:520px;}
+.hero p.lead b{color:var(--text); font-weight:600;}
+.hero-ctas{display:flex; gap:14px; margin-top:34px; flex-wrap:wrap;}
+.btn-primary{
+  background:var(--alert); color:#150406; font-weight:700;
+  font-family:'JetBrains Mono',monospace; font-size:14px; letter-spacing:0.5px;
+  padding:15px 26px; border-radius:4px; display:inline-block;
+  box-shadow:0 10px 30px rgba(232,53,43,0.25);
+}
+.btn-secondary{
+  border:1px solid var(--panel-line); color:var(--text);
+  font-family:'JetBrains Mono',monospace; font-size:14px;
+  padding:14px 24px; border-radius:4px; display:inline-block;
+}
+.hero-trust{margin-top:30px; display:flex; gap:22px; flex-wrap:wrap; font-size:12.5px; color:var(--muted2); font-family:'JetBrains Mono',monospace;}
+.hero-trust span{display:flex; align-items:center; gap:7px;}
+.hero-trust .sq{width:6px;height:6px;background:var(--scan);}
+
+/* phone signature */
+.phone-wrap{position:relative; justify-self:center;}
+.phone{
+  position:relative; width:300px; height:430px;
+  background:var(--panel); border:2px solid var(--panel-line); border-radius:34px;
+  box-shadow:0 50px 90px rgba(0,0,0,0.55); overflow:hidden;
+}
+.phone .notch{position:absolute; top:14px; left:50%; transform:translateX(-50%); width:80px; height:8px; border-radius:6px; background:var(--bg);}
+.phone .screen{
+  position:absolute; inset:34px 10px 10px 10px; border-radius:20px;
+  background:linear-gradient(180deg, rgba(53,232,180,0.05), transparent 40%), #0d1112;
+  border:1px solid var(--panel-line); padding:16px 14px;
+  font-family:'JetBrains Mono',monospace; font-size:11.5px; line-height:1.95;
+  overflow:hidden;
+}
+.phone .screen .l1{color:#5fead0;}
+.phone .screen .l2{color:var(--muted2);}
+.phone .screen .alert{color:#ff6b5e;}
+.phone .screen .tag{color:var(--text);}
+.scanline{
+  position:absolute; left:10px; right:10px; top:40px; height:2px;
+  background:linear-gradient(90deg, transparent, var(--scan), transparent);
+  box-shadow:0 0 14px 2px rgba(53,232,180,0.6);
+  animation:sweep 3.4s ease-in-out infinite;
+}
+@keyframes sweep{
+  0%{top:40px; opacity:0;}
+  8%{opacity:1;}
+  50%{top:378px; opacity:1;}
+  58%{opacity:0;}
+  100%{top:378px; opacity:0;}
+}
+.tape{
+  position:absolute; top:118px; left:-40px; width:300px; padding:9px 0;
+  background:var(--alert); transform:rotate(-30deg); text-align:center;
+  font-family:'JetBrains Mono',monospace; font-weight:700; font-size:13px; letter-spacing:3px;
+  color:#1a0000; box-shadow:0 8px 20px rgba(0,0,0,0.4); z-index:3;
+}
+@media(max-width:900px){ .hero-grid{grid-template-columns:1fr;} .phone-wrap{margin-top:20px;} }
+
+/* ===== SECTION HEADS ===== */
+.section{padding:80px 0;}
+.section.alt{background:linear-gradient(180deg, transparent, rgba(255,255,255,0.012), transparent); border-top:1px solid var(--panel-line); border-bottom:1px solid var(--panel-line);}
+.eyebrow{font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:3px; color:var(--alert); font-weight:700; margin-bottom:14px;}
+h2{font-family:'Oswald',sans-serif; font-weight:600; font-size:clamp(26px,3.4vw,38px); text-transform:uppercase; letter-spacing:0.5px; max-width:640px;}
+.section-lead{margin-top:16px; color:var(--muted); max-width:600px; font-size:16px;}
+
+/* ===== SIGNS ===== */
+.signs-grid{margin-top:44px; display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--panel-line); border:1px solid var(--panel-line);}
+.sign-card{background:var(--bg); padding:30px 28px;}
+.sign-card .n{font-family:'JetBrains Mono',monospace; color:var(--muted2); font-size:14px;}
+.sign-card p{margin-top:10px; font-size:16.5px; color:var(--text);}
+@media(max-width:700px){ .signs-grid{grid-template-columns:1fr;} }
+
+/* ===== PROCESS ===== */
+.process{margin-top:50px; display:grid; grid-template-columns:repeat(4,1fr); gap:24px;}
+.step{position:relative; padding-top:20px; border-top:1px solid var(--panel-line);}
+.step .num{font-family:'Oswald',sans-serif; font-weight:700; font-size:34px; color:var(--panel-line); -webkit-text-stroke:1px var(--muted2); color:transparent;}
+.step h3{font-family:'Oswald',sans-serif; font-size:18px; text-transform:uppercase; margin:14px 0 8px; letter-spacing:0.4px;}
+.step p{font-size:14.5px; color:var(--muted);}
+@media(max-width:900px){ .process{grid-template-columns:1fr 1fr;} }
+@media(max-width:560px){ .process{grid-template-columns:1fr;} }
+
+/* ===== TERMINAL SHOWCASE ===== */
+.term-shell{
+  margin-top:46px; background:var(--panel); border:1px solid var(--panel-line); border-radius:10px;
+  overflow:hidden; max-width:760px;
+}
+.term-bar{display:flex; align-items:center; gap:8px; padding:12px 16px; border-bottom:1px solid var(--panel-line);}
+.term-bar i{width:10px;height:10px;border-radius:50%;background:#3a4247;}
+.term-bar span{margin-left:10px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--muted2);}
+.term-body{padding:24px 26px; font-family:'JetBrains Mono',monospace; font-size:14px; line-height:2.05; min-height:210px;}
+.term-body .l1{color:#5fead0;}
+.term-body .l2{color:var(--muted2);}
+.term-body .alert{color:#ff6b5e;}
+.term-body .tag{color:var(--text); font-weight:700;}
+.cursor{display:inline-block; width:8px; height:15px; background:var(--scan); vertical-align:middle; animation:blink 1s step-start infinite;}
+@keyframes blink{50%{opacity:0;}}
+
+/* ===== TRUST BAR ===== */
+.trust-grid{margin-top:44px; display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--panel-line); border:1px solid var(--panel-line);}
+.trust-card{background:var(--bg); padding:26px 24px;}
+.trust-card .icon{color:var(--scan); font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:2px; margin-bottom:10px;}
+.trust-card p{font-size:14px; color:var(--muted);}
+@media(max-width:900px){ .trust-grid{grid-template-columns:1fr 1fr;} }
+@media(max-width:560px){ .trust-grid{grid-template-columns:1fr;} }
+
+/* ===== CTA / FOOTER ===== */
+.cta-band{
+  padding:90px 0; text-align:center; border-top:1px solid rgba(232,53,43,0.35);
+  background:linear-gradient(180deg, rgba(232,53,43,0.05), transparent);
+}
+.cta-band h2{margin:0 auto 18px; max-width:640px;}
+.cta-band .section-lead{margin-left:auto; margin-right:auto;}
+.cta-band .hero-ctas{justify-content:center; margin-top:30px;}
+
+footer{border-top:1px solid var(--panel-line); padding:40px 0;}
+.footer-inner{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;}
+.footer-inner .domain{font-family:'JetBrains Mono',monospace; color:var(--scan); font-weight:700;}
+.footer-inner .domain:hover{ text-decoration:underline; }
+.footer-inner .note{color:var(--muted2); font-size:13px;}
+
+/* scroll reveal */
+.reveal{opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease;}
+.reveal.in{opacity:1; transform:translateY(0);}
+</style>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ZeroTrace37">
+<meta property="og:locale" content="de_DE">
+<meta property="og:title" content="Spyware- &amp; Malware-Forensik-Scan — ZeroTrace37">
+<meta property="og:description" content="Forensischer Spyware- und Malware-Scan für iOS und Android mit dem MVT-Toolkit. Findet Stalkerware und Staatstrojaner wie Pegasus. Vertraulich, verschlüsselt, Berlin-basiert.">
+<meta property="og:url" content="https://zerotrace37.com/forensik.html">
+<meta property="og:image" content="https://zerotrace37.com/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Start", "item": "https://zerotrace37.com/"}, {"@type": "ListItem", "position": 2, "name": "Spyware-Scan", "item": "https://zerotrace37.com/forensik.html"}]}, {"@type": "Service", "name": "Spyware-Scan", "description": "Forensischer Spyware- und Malware-Scan für iOS und Android mit dem MVT-Toolkit. Findet Stalkerware und Staatstrojaner wie Pegasus. Vertraulich, verschlüsselt, Berlin-basiert.", "url": "https://zerotrace37.com/forensik.html", "areaServed": {"@type": "Country", "name": "Deutschland"}, "provider": {"@type": "ProfessionalService", "@id": "https://zerotrace37.com/#organization", "name": "ZeroTrace37", "url": "https://zerotrace37.com/", "telephone": "+4917670683230"}}]}</script>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="glow-a"></div>
+<div class="glow-b"></div>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="https://zerotrace37.com/">ZEROTRACE37<span class="dot">.</span></a>
+    <nav class="nav-links">
+      <a href="https://zerotrace37.com/" class="home-link">← Alle Services</a>
+      <a href="#anzeichen">Anzeichen</a>
+      <a href="#ablauf">Ablauf</a>
+      <a href="#report">Der Scan</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+    <a class="nav-cta" href="#kontakt">SCAN ANFORDERN</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero wrap">
+  <div class="hero-grid">
+    <div>
+      <div class="case-tag"><span class="dot"></span>FALLAKTE // ZT37-MVT-SCAN</div>
+      <h1>WER LIEST<br><span class="hl">MIT</span> AUF<br>DEINEM HANDY?</h1>
+      <p class="lead">Forensischer Spyware- &amp; Malware-Scan mit dem <b>MVT-Toolkit</b> — derselben Open-Source-Technologie, mit der Staatstrojaner wie <b>Pegasus &amp; Predator</b> weltweit aufgedeckt wurden.</p>
+      <div class="hero-ctas">
+        <a class="btn-primary" href="#kontakt">JETZT SCAN ANFORDERN →</a>
+        <a class="btn-secondary" href="#report">So läuft der Scan ab</a>
+      </div>
+      <div class="hero-trust">
+        <span><i class="sq"></i>219+ Indikatoren (Amnesty Int'l STIX)</span>
+        <span><i class="sq"></i>Vertraulich &amp; verschlüsselt</span>
+        <span><i class="sq"></i>iOS &amp; Android</span>
+      </div>
+    </div>
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="notch"></div>
+        <div class="tape">KOMPROMITTIERT?</div>
+        <div class="screen">
+          <div class="l2">$ mvt-ios check-backup</div>
+          <div class="l1">[i] Indicators geladen: 219</div>
+          <div class="l1">[i] Prüfe Prozesse &amp; Profile…</div>
+          <div class="alert">[!] Anomalie: Persistenz-Hook</div>
+          <div class="alert">[!] unbek. Konfigurationsprofil</div>
+          <div class="tag">[✗] 1 INDIKATOR BESTÄTIGT</div>
+        </div>
+        <div class="scanline"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ANZEICHEN -->
+<section class="section alt" id="anzeichen">
+  <div class="wrap reveal">
+    <div class="eyebrow">TYPISCHE ANZEICHEN</div>
+    <h2>Diese Symptome deuten auf ein kompromittiertes Gerät hin</h2>
+    <div class="signs-grid">
+      <div class="sign-card"><div class="n">01</div><p>Akku leert sich rasant — auch im Standby, ohne erhöhte Nutzung.</p></div>
+      <div class="sign-card"><div class="n">02</div><p>Gerät wird spürbar warm, obwohl du es nicht benutzt hast.</p></div>
+      <div class="sign-card"><div class="n">03</div><p>Unbekannte Profile, Apps oder Zertifikate sind installiert.</p></div>
+      <div class="sign-card"><div class="n">04</div><p>Mobiler Datenverbrauch steigt, ohne dass sich dein Verhalten geändert hat.</p></div>
+      <div class="sign-card"><div class="n">05</div><p>Standortfreigabe oder Mikrofonzugriff aktiv, obwohl du sie deaktiviert hast.</p></div>
+      <div class="sign-card"><div class="n">06</div><p>Ex-Partner, Arbeitgeber oder Unbekannte scheinen zu wissen, was eigentlich privat war.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABLAUF -->
+<section class="section" id="ablauf">
+  <div class="wrap reveal">
+    <div class="eyebrow">SO LÄUFT DER SCAN AB</div>
+    <h2>Vier Schritte bis zur forensischen Klarheit</h2>
+    <div class="process">
+      <div class="step"><div class="num">01</div><h3>Kontakt &amp; Backup</h3><p>Du meldest dich, wir erklären dir in 15 Minuten, welches Backup wir von deinem Gerät brauchen.</p></div>
+      <div class="step"><div class="num">02</div><h3>MVT-Analyse</h3><p>Wir prüfen dein Backup gegen 219+ forensische Indikatoren bekannter Spyware-Kampagnen.</p></div>
+      <div class="step"><div class="num">03</div><h3>Report</h3><p>Du erhältst einen verständlichen Befund: unauffällig oder konkrete Funde mit Einordnung.</p></div>
+      <div class="step"><div class="num">04</div><h3>Beratung</h3><p>Bei einem Fund begleiten wir dich bei Bereinigung, Absicherung und nächsten Schritten.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- REPORT SHOWCASE -->
+<section class="section alt" id="report">
+  <div class="wrap reveal">
+    <div class="eyebrow">DER SCAN IN AKTION</div>
+    <h2>Kein Blackbox-Ergebnis — du siehst, wonach gesucht wurde</h2>
+    <p class="section-lead">Der MVT-Scan ist Open Source und wird von Forensiker:innen und Menschenrechtsorganisationen weltweit eingesetzt. ZeroTrace37 führt die Analyse durch und übersetzt das technische Ergebnis in einen klaren Befund.</p>
+    <div class="term-shell">
+      <div class="term-bar"><i></i><i></i><i></i><span>zt37-forensics — mvt-ios</span></div>
+      <div class="term-body" id="termBody"></div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section class="section">
+  <div class="wrap reveal">
+    <div class="eyebrow">WARUM ZEROTRACE37</div>
+    <h2>Diskretion ist Teil der Methode, nicht nur ein Versprechen</h2>
+    <div class="trust-grid">
+      <div class="trust-card"><div class="icon">[ENC]</div><p>Verschlüsselte Übertragung &amp; Speicherung deiner Daten während der gesamten Analyse.</p></div>
+      <div class="trust-card"><div class="icon">[SRC]</div><p>Indikatoren-Datenbank basiert auf öffentlich dokumentierten Spyware-Kampagnen.</p></div>
+      <div class="trust-card"><div class="icon">[DEL]</div><p>Auf Wunsch werden Backup &amp; Rohdaten nach Abschluss nachweislich gelöscht.</p></div>
+      <div class="trust-card"><div class="icon">[BER]</div><p>Berlin-basiert, persönlicher Ansprechpartner statt anonymes Ticketsystem.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-band" id="kontakt">
+  <div class="wrap reveal">
+    <div class="eyebrow" style="text-align:center;">JETZT HANDELN</div>
+    <h2>Wenn der Verdacht schon da ist, lohnt sich die Gewissheit</h2>
+    <p class="section-lead">Melde dich mit deinem iOS- oder Android-Gerät — du bekommst innerhalb von 24h eine erste Einschätzung, wie der Scan bei dir konkret abläuft.</p>
+    <div class="hero-ctas">
+      <a class="btn-primary" href="mailto:kontakt@zerotrace37.com">SCAN PER E-MAIL ANFORDERN →</a>
+      <a class="btn-secondary" href="https://zerotrace37.com">zerotrace37.com</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <a class="domain" href="https://zerotrace37.com/">zerotrace37.com</a>
+    <div class="note">Digital Forensics · Berlin · Vertraulich · Verschlüsselt · Diskret</div>
+  </div>
+</footer>
+
+<script>
+// terminal typing effect
+const lines = [
+  {t:'l2', text:'$ mvt-ios check-backup --output ./report'},
+  {t:'l1', text:"[i] Indicators geladen: 219 (STIX, Amnesty Int'l)"},
+  {t:'l1', text:'[i] Analysiere Konfigurationsprofile…'},
+  {t:'l1', text:'[i] Prüfe Prozess-Persistenz…'},
+  {t:'alert', text:'[!] Anomalie erkannt: Persistenz-Hook in CoreDuet'},
+  {t:'alert', text:'[!] Unbekanntes Konfigurationsprofil gefunden'},
+  {t:'tag', text:'[✗] 1 forensischer Indikator bestätigt — Report bereit'}
+];
+const el = document.getElementById('termBody');
+let li = 0;
+function typeLine(){
+  if(li >= lines.length){ return; }
+  const {t,text} = lines[li];
+  const div = document.createElement('div');
+  div.className = t;
+  el.appendChild(div);
+  let ci = 0;
+  const speed = 16;
+  function typeChar(){
+    if(ci <= text.length){
+      div.textContent = text.slice(0, ci) + (ci < text.length ? '▌' : '');
+      ci++;
+      setTimeout(typeChar, speed);
+    } else {
+      div.textContent = text;
+      li++;
+      setTimeout(typeLine, 260);
+    }
+  }
+  typeChar();
+}
+
+// scroll reveal
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); } });
+},{threshold:0.15});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// start terminal typing once its section is visible
+const termObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){ typeLine(); termObserver.disconnect(); }
+  });
+},{threshold:0.3});
+termObserver.observe(document.getElementById('termBody'));
+</script>
+
+</body>
+</html>

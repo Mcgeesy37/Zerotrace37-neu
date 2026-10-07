@@ -1,0 +1,16 @@
+{
+  "name": "ZeroTrace37",
+  "short_name": "ZeroTrace37",
+  "description": "Cybersecurity, Penetration Testing & digitale Forensik — Berlin",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020408",
+  "theme_color": "#00ff88",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

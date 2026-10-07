@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Incident Response — ZeroTrace37</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="theme-color" content="#00ff88" />
+  <meta name="description" content="Sofortreaktion bei Cyberangriffen: Schadensbegrenzung, forensische Analyse und Wiederherstellung. 24/7 erreichbar, optional mit garantierter Reaktionszeit per Retainer." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="canonical" href="https://zerotrace37.com/incident-response.html" />
+  <style>
+    /* ===== PAGE-SPECIFIC ADDITIONS (Incident Response subpage) ===== */
+
+    .sub-hero { min-height: 55vh; padding: 140px 5% 60px; display: flex; align-items: center; position: relative; overflow: hidden; }
+    .sub-hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,45,85,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,45,85,0.05) 1px, transparent 1px);
+      background-size: 50px 50px; z-index: 0;
+    }
+    .sub-hero-content { position: relative; z-index: 1; max-width: 740px; }
+    .breadcrumb { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.08em; margin-bottom: 1.5rem; }
+    .breadcrumb a { color: var(--neon-cyan); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--neon-green); }
+    .sub-hero h1 {
+      font-family: var(--font-display); font-size: clamp(2.1rem, 4.6vw, 3.4rem); font-weight: 900;
+      letter-spacing: 0.02em; line-height: 1.15;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--neon-red) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: 1.2rem;
+    }
+    .sub-hero-sub { color: var(--text-muted); font-size: 1.05rem; line-height: 1.8; margin-bottom: 2rem; }
+
+    /* Hero-level emergency callout — this page is inherently urgency-driven */
+    .hero-emergency {
+      display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap;
+      background: rgba(255,45,85,0.07); border: 1px solid rgba(255,45,85,0.35);
+      padding: 1.4rem 1.6rem; margin-top: 1rem;
+    }
+    .hero-emergency .status-dot {
+      width: 12px; height: 12px; border-radius: 50%; background: var(--neon-red);
+      box-shadow: 0 0 10px var(--neon-red); animation: pulse 1.4s ease-in-out infinite; flex-shrink: 0;
+    }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .hero-emergency strong { display: block; color: var(--neon-red); font-family: var(--font-display); font-size: 0.95rem; letter-spacing: 0.03em; }
+    .hero-emergency p { color: var(--text-muted); font-size: 0.85rem; margin-top: 0.2rem; }
+    .hero-emergency .btn-primary { margin-left: auto; }
+
+    .box-label {
+      font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.15em;
+      color: var(--neon-green); border: 1px solid rgba(0,255,136,0.3);
+      display: inline-block; padding: 0.2rem 0.6rem; margin-bottom: 1rem;
+    }
+    .response-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
+      max-width: 1200px; margin: 0 auto; padding: 0 5%;
+    }
+    @media (max-width: 1100px) { .response-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .response-grid { grid-template-columns: 1fr; } }
+
+    /* Timeline (shared pattern) */
+    .timeline-section { padding: 100px 5%; }
+    .timeline { max-width: 900px; margin: 0 auto; position: relative; padding-left: 40px; }
+    .timeline::before {
+      content: ''; position: absolute; left: 13px; top: 10px; bottom: 10px; width: 2px;
+      background: linear-gradient(to bottom, var(--neon-red), rgba(255,45,85,0.1));
+    }
+    .timeline-step { position: relative; padding-bottom: 3rem; opacity: 0; transform: translateX(-20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .timeline-step.visible { opacity: 1; transform: translateX(0); }
+    .timeline-step:last-child { padding-bottom: 0; }
+    .timeline-dot {
+      position: absolute; left: -40px; top: 2px; width: 28px; height: 28px; border-radius: 50%;
+      background: var(--bg-deep); border: 2px solid var(--neon-red);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-red);
+      box-shadow: 0 0 12px rgba(255,45,85,0.3);
+    }
+    .timeline-content { background: var(--bg-card); border: 1px solid var(--border); padding: 1.5rem 1.8rem; }
+    .timeline-content h3 { font-family: var(--font-display); font-size: 1rem; letter-spacing: 0.04em; color: var(--text-primary); margin-bottom: 0.6rem; }
+    .timeline-content p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.7; }
+    .timeline-phase-tag { font-family: var(--font-mono); font-size: 0.65rem; color: var(--neon-cyan); letter-spacing: 0.1em; margin-bottom: 0.4rem; display: block; }
+    .timeline-sla { font-family: var(--font-mono); font-size: 0.7rem; color: var(--neon-red); margin-top: 0.5rem; display: block; }
+
+    /* Retainer tiers */
+    .retainer-section { padding: 0 5% 100px; }
+    .retainer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 1100px; margin: 0 auto; }
+    @media (max-width: 900px) { .retainer-grid { grid-template-columns: 1fr; } }
+    .retainer-card { background: var(--bg-card); border: 1px solid var(--border); padding: 2rem; position: relative; }
+    .retainer-card.reco { border-color: rgba(0,255,136,0.4); }
+    .retainer-reco-badge {
+      position: absolute; top: -1px; right: 1.5rem; background: var(--neon-green); color: var(--bg-deep);
+      font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.1em; padding: 0.2rem 0.6rem;
+    }
+    .retainer-card h3 { font-family: var(--font-display); font-size: 1.1rem; color: var(--text-primary); margin-bottom: 0.4rem; }
+    .retainer-sla { font-family: var(--font-mono); font-size: 1.6rem; color: var(--neon-green); margin-bottom: 1.2rem; }
+    .retainer-sla span { font-size: 0.8rem; color: var(--text-muted); }
+    .retainer-card ul { list-style: none; }
+    .retainer-card ul li { color: var(--text-muted); font-size: 0.85rem; padding: 0.5rem 0; border-top: 1px solid rgba(255,255,255,0.04); }
+    .retainer-card ul li:first-child { border-top: none; }
+
+    /* FAQ */
+    .faq-section { padding: 0 5% 100px; }
+    .faq-list { max-width: 800px; margin: 0 auto; }
+    .faq-item { background: var(--bg-card); border: 1px solid var(--border); margin-bottom: 0.8rem; overflow: hidden; }
+    .faq-item summary {
+      font-family: var(--font-display); font-size: 0.9rem; color: var(--text-primary);
+      padding: 1.1rem 1.4rem; cursor: pointer; list-style: none;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after { content: '+'; color: var(--neon-green); font-size: 1.3rem; font-family: var(--font-mono); transition: transform 0.3s ease; }
+    .faq-item[open] summary::after { transform: rotate(45deg); }
+    .faq-item p { color: var(--text-muted); font-size: 0.88rem; line-height: 1.75; padding: 0 1.4rem 1.3rem; }
+
+    .urgency-box { position: relative; padding: 1.5rem; border: 1px solid rgba(255,45,85,0.4); background: rgba(255,45,85,0.05); overflow: hidden; margin-bottom: 2.5rem; max-width: 1000px; margin-left: auto; margin-right: auto; }
+    .urgency-pulse { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--neon-red); animation: urgencyPulse 1.5s ease-in-out infinite; }
+    @keyframes urgencyPulse { 0%,100% { opacity: 0.5; box-shadow: none; } 50% { opacity: 1; box-shadow: 0 0 15px var(--neon-red); } }
+    .urgency-box strong { font-family: var(--font-display); font-size: 0.9rem; color: var(--neon-red); letter-spacing: 0.05em; display: block; margin-bottom: 0.5rem; }
+    .urgency-box p { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1rem; }
+
+    /* ===== REQUEST FORM ===== */
+    .req-section { padding: 0 5% 120px; }
+    .req-wrapper { max-width: 820px; margin: 0 auto; }
+    .req-notice {
+      background: rgba(0,255,136,0.04); border: 1px solid rgba(0,255,136,0.25);
+      padding: 1.2rem 1.4rem; margin-bottom: 2.5rem;
+      font-family: var(--font-mono); font-size: 0.8rem; color: var(--neon-green); line-height: 1.7;
+    }
+    .req-form { background: var(--bg-card); border: 1px solid var(--border); padding: 2.5rem; }
+    .req-fieldset { border: none; margin-bottom: 2.2rem; padding: 0; }
+    .req-fieldset:last-of-type { margin-bottom: 0; }
+    .req-legend {
+      font-family: var(--font-mono); font-size: 0.68rem; color: var(--neon-green);
+      letter-spacing: 0.18em; text-transform: uppercase;
+      border-bottom: 1px solid var(--border); padding-bottom: 0.6rem; margin-bottom: 1.3rem;
+      width: 100%; display: block;
+    }
+    .req-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.2rem; }
+    .req-field { margin-bottom: 1.2rem; }
+    .req-field:last-child { margin-bottom: 0; }
+    .req-field label { display: block; font-family: var(--font-mono); font-size: 0.72rem; color: var(--neon-cyan); letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+    .req-field input[type="text"], .req-field input[type="email"], .req-field input[type="tel"], .req-field textarea, .req-field select {
+      width: 100%; background: var(--bg-deep); border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text-primary); font-family: var(--font-mono); font-size: 0.85rem;
+      padding: 0.75rem 0.9rem; outline: none; resize: vertical;
+    }
+    .req-field select option { background: var(--bg-card); }
+    .req-field input:focus, .req-field textarea:focus, .req-field select:focus { border-color: var(--neon-green); }
+    .req-check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+    .req-checkbox, .req-radio { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+    .req-checkbox input, .req-radio input { margin-top: 3px; accent-color: var(--neon-green); flex-shrink: 0; }
+    .req-submit { width: 100%; margin-top: 0.5rem; }
+    .req-form-status { margin-top: 1rem; font-family: var(--font-mono); font-size: 0.8rem; text-align: center; min-height: 1.4em; }
+    .req-form-status.ok { color: var(--neon-green); }
+    .req-form-status.err { color: var(--neon-red); }
+
+    @media (max-width: 900px) {
+      .req-row, .req-check-grid { grid-template-columns: 1fr; }
+      .req-form { padding: 1.5rem; }
+      .hero-emergency .btn-primary { margin-left: 0; width: 100%; justify-content: center; }
+    }
+  </style>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ZeroTrace37">
+<meta property="og:locale" content="de_DE">
+<meta property="og:title" content="Incident Response — ZeroTrace37">
+<meta property="og:description" content="Sofortreaktion bei Cyberangriffen: Schadensbegrenzung, forensische Analyse und Wiederherstellung. 24/7 erreichbar, optional mit garantierter Reaktionszeit per Retainer.">
+<meta property="og:url" content="https://zerotrace37.com/incident-response.html">
+<meta property="og:image" content="https://zerotrace37.com/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Start", "item": "https://zerotrace37.com/"}, {"@type": "ListItem", "position": 2, "name": "Incident Response", "item": "https://zerotrace37.com/incident-response.html"}]}, {"@type": "Service", "name": "Incident Response", "description": "Sofortreaktion bei Cyberangriffen: Schadensbegrenzung, forensische Analyse und Wiederherstellung. 24/7 erreichbar, optional mit garantierter Reaktionszeit per Retainer.", "url": "https://zerotrace37.com/incident-response.html", "areaServed": {"@type": "Country", "name": "Deutschland"}, "provider": {"@type": "ProfessionalService", "@id": "https://zerotrace37.com/#organization", "name": "ZeroTrace37", "url": "https://zerotrace37.com/", "telephone": "+4917670683230"}}]}</script>
+</head>
+<body>
+
+  <canvas id="matrixCanvas"></canvas>
+  <div class="scanlines"></div>
+  <div class="noise-overlay"></div>
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo" style="text-decoration:none;">
+      <span class="logo-bracket">[</span>
+      <span class="logo-text">ZEROTRACE<span class="accent">37</span></span>
+      <span class="logo-bracket">]</span>
+      <span class="logo-blink">_</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#home" class="nav-link">HOME</a></li>
+      <li><a href="index.html#services" class="nav-link">SERVICES</a></li>
+      <li><a href="#retainer" class="nav-link">RETAINER</a></li>
+      <li><a href="#anfrage" class="nav-link">ANFRAGE</a></li>
+      <li><a href="index.html#contact" class="nav-link cta-nav">KONTAKT</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ===== SUB HERO ===== -->
+  <section class="sub-hero">
+    <div class="sub-hero-grid"></div>
+    <div class="sub-hero-content">
+      <div class="breadcrumb"><a href="index.html">Home</a> // <a href="index.html#services">Services</a> // Incident Response</div>
+      <h1>Incident Response</h1>
+      <p class="sub-hero-sub">
+        Schadensbegrenzung, forensische Analyse, Wiederherstellung — aus einer Hand, wenn jede Minute zählt.
+      </p>
+      <div class="hero-emergency">
+        <span class="status-dot" aria-hidden="true"></span>
+        <div>
+          <strong>Laufender Angriff — jetzt?</strong>
+          <p>Nicht scrollen, nicht das Formular ausfüllen. Anrufen.</p>
+        </div>
+        <a href="tel:+4917670683230" class="btn-primary">JETZT ANRUFEN</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RESPONSE TYPES ===== -->
+  <section class="services">
+    <div class="section-header">
+      <div class="section-tag">// LEISTUNGEN</div>
+      <h2 class="section-title">Was wir übernehmen</h2>
+      <p class="section-sub">Vier Phasen, ein Ansprechpartner.</p>
+    </div>
+    <div class="response-grid">
+
+      <div class="service-card" data-delay="0">
+        <div class="card-glow"></div>
+        <span class="box-label">SOFORT</span>
+        <h3>Schadensbegrenzung</h3>
+        <p>Betroffene Systeme werden isoliert, Angriffsvektoren geschlossen, weitere Ausbreitung gestoppt.</p>
+        <div class="card-tags"><span>Containment</span><span>Isolation</span></div>
+      </div>
+
+      <div class="service-card featured" data-delay="100">
+        <div class="card-glow"></div>
+        <div class="featured-badge">KERN-LEISTUNG</div>
+        <span class="box-label">ANALYSE</span>
+        <h3>Forensische Untersuchung</h3>
+        <p>Wir klären, wie der Angreifer eindrang, was betroffen ist und ob Daten abgeflossen sind — gerichtsfest dokumentiert.</p>
+        <div class="card-tags"><span>Root Cause</span><span>Beweissicherung</span></div>
+      </div>
+
+      <div class="service-card" data-delay="200">
+        <div class="card-glow"></div>
+        <span class="box-label">RECOVERY</span>
+        <h3>Wiederherstellung</h3>
+        <p>Systeme werden bereinigt und sicher wieder in Betrieb genommen — nicht nur schnell, sondern nachhaltig sauber.</p>
+        <div class="card-tags"><span>Cleanup</span><span>Restore</span></div>
+      </div>
+
+      <div class="service-card" data-delay="300">
+        <div class="card-glow"></div>
+        <span class="box-label">KOMMUNIKATION</span>
+        <h3>Krisenkommunikation</h3>
+        <p>Unterstützung bei Meldepflichten (z. B. DSGVO Art. 33), Behördenkontakt und interner/externer Kommunikation.</p>
+        <div class="card-tags"><span>Meldepflicht</span><span>Behörden</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== PROCESS TIMELINE ===== -->
+  <section class="timeline-section">
+    <div class="section-header">
+      <div class="section-tag">// ABLAUF</div>
+      <h2 class="section-title">So läuft die Reaktion ab</h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-step">
+        <div class="timeline-dot">1</div>
+        <div class="timeline-content">
+          <span class="timeline-phase-tag">// PHASE 1</span>
+          <h3>Erstkontakt & Sofortmaßnahmen</h3>
+          <p>Nach Ihrem Anruf beginnen wir sofort mit ersten Eindämmungsmaßnahmen — telefonisch angeleitet, noch bevor wir vor Ort oder remote verbunden sind.</p>
+          <span class="timeline-sla">// Reaktion in der Regel innerhalb von Minuten</span>
+        </div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-dot">2</div>
+        <div class="timeline-content">
+          <span class="timeline-phase-tag">// PHASE 2</span>
+          <h3>Eindämmung</h3>
+          <p>Betroffene Systeme werden vom Netz isoliert, ohne Beweismittel zu zerstören — Balance zwischen schnellem Stoppen und sauberer Forensik.</p>
+        </div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-dot">3</div>
+        <div class="timeline-content">
+          <span class="timeline-phase-tag">// PHASE 3</span>
+          <h3>Forensische Analyse</h3>
+          <p>Wir rekonstruieren den Angriffsverlauf: Einfallstor, betroffene Systeme, mögliche Datenabflüsse.</p>
+        </div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-dot">4</div>
+        <div class="timeline-content">
+          <span class="timeline-phase-tag">// PHASE 4</span>
+          <h3>Bereinigung & Wiederherstellung</h3>
+          <p>Systeme werden bereinigt, gehärtet und kontrolliert wieder hochgefahren.</p>
+        </div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-dot">5</div>
+        <div class="timeline-content">
+          <span class="timeline-phase-tag">// PHASE 5</span>
+          <h3>Abschlussbericht & Prävention</h3>
+          <p>Vollständige Dokumentation für Behörden/Versicherung, plus konkrete Empfehlungen, damit sich der Vorfall nicht wiederholt.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RETAINER ===== -->
+  <section class="retainer-section" id="retainer">
+    <div class="section-header">
+      <div class="section-tag">// PROAKTIV</div>
+      <h2 class="section-title">Incident-Response-Retainer</h2>
+      <p class="section-sub">Ein Vorfall ist der schlechteste Zeitpunkt, zum ersten Mal mit uns zu telefonieren. Mit einem Retainer ist die Reaktionszeit vertraglich fixiert, bevor etwas passiert.</p>
+    </div>
+    <div class="retainer-grid">
+
+      <div class="retainer-card">
+        <h3>Basis</h3>
+        <div class="retainer-sla">4h <span>Reaktionszeit</span></div>
+        <ul>
+          <li>Priorisierte Hotline</li>
+          <li>Werktags 8–20 Uhr</li>
+          <li>Jährliche Kontaktdaten-Verifikation</li>
+        </ul>
+      </div>
+
+      <div class="retainer-card reco">
+        <span class="retainer-reco-badge">EMPFOHLEN</span>
+        <h3>Standard</h3>
+        <div class="retainer-sla">1h <span>Reaktionszeit</span></div>
+        <ul>
+          <li>24/7 priorisierte Hotline</li>
+          <li>Jährlicher Notfall-Testlauf (Tabletop-Übung)</li>
+          <li>Vordefinierter Eskalationsplan</li>
+        </ul>
+      </div>
+
+      <div class="retainer-card">
+        <h3>Enterprise</h3>
+        <div class="retainer-sla">15min <span>Reaktionszeit</span></div>
+        <ul>
+          <li>24/7 dedizierter Ansprechpartner</li>
+          <li>Vierteljährliche Übungen</li>
+          <li>Individuelles SLA nach Bedarf</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="faq-section">
+    <div class="section-header">
+      <div class="section-tag">// FAQ</div>
+      <h2 class="section-title">Häufige Fragen</h2>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>Wir haben keinen Retainer — helft ihr trotzdem im Notfall?</summary>
+        <p>Ja. Die Notfall-Hotline steht unabhängig von einem Retainer allen offen. Ein Retainer garantiert lediglich eine vertraglich fixierte, kürzere Reaktionszeit und Priorisierung gegenüber Ad-hoc-Anfragen.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Müssen wir den Vorfall der Datenschutzbehörde melden?</summary>
+        <p>Bei einer Verletzung des Schutzes personenbezogener Daten besteht unter bestimmten Voraussetzungen eine Meldepflicht nach Art. 33 DSGVO (72-Stunden-Frist). Wir unterstützen bei der Einschätzung und Formulierung — die rechtliche Bewertung erfolgt in Abstimmung mit Ihrem Rechtsbeistand, siehe auch <a href="rechtliche-begleitung.html" style="color:var(--neon-cyan);">Rechtliche Begleitung</a>.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Was kostet Incident Response ohne Retainer?</summary>
+        <p>Ad-hoc-Einsätze werden nach Aufwand abgerechnet, abhängig von Umfang und Dringlichkeit. Im Erstgespräch erhalten Sie eine transparente Einschätzung, bevor Maßnahmen kostenpflichtig anlaufen.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Wie schnell könnt ihr wirklich reagieren?</summary>
+        <p>Bei akuten Anrufen beginnen erste telefonisch angeleitete Sofortmaßnahmen in der Regel innerhalb weniger Minuten. Vor-Ort- oder Remote-Vollzugriff hängt vom individuellen Fall und — bei Retainer-Kunden — vom vereinbarten SLA ab.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ===== REQUEST FORM ===== -->
+  <section class="req-section" id="anfrage">
+    <div class="section-header">
+      <div class="section-tag">// ANFRAGE</div>
+      <h2 class="section-title">Retainer oder Beratung anfragen</h2>
+      <p class="section-sub">Für akute Vorfälle bitte die Hotline nutzen — dieses Formular ist für Retainer-Anfragen und allgemeine Beratung.</p>
+    </div>
+
+    <div class="req-wrapper">
+
+      <div class="urgency-box">
+        <div class="urgency-pulse"></div>
+        <strong>Läuft der Angriff gerade?</strong>
+        <p>Formular jetzt schließen und direkt anrufen — jede Minute zählt.</p>
+        <a href="tel:+4917670683230" class="btn-primary btn-small">JETZT ANRUFEN</a>
+      </div>
+
+      <!--
+        SETUP: Diese Form sendet per Formspree (kostenlos) an deine E-Mail.
+        1. Auf https://formspree.io kostenlos registrieren
+        2. Neues Formular anlegen, deine E-Mail-Adresse bestätigen
+        3. Die Formular-ID (z.B. "abcdwxyz") aus der Formspree-URL kopieren
+        4. Unten "DEINE-FORMSPREE-ID" durch diese ID ersetzen
+      -->
+      <form class="req-form" id="reqForm" action="https://formspree.io/f/xdawolnz" method="POST">
+
+        <fieldset class="req-fieldset">
+          <legend class="req-legend">§ 01 — Kontaktdaten</legend>
+          <div class="req-row">
+            <div class="req-field">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="Name" required />
+            </div>
+            <div class="req-field">
+              <label for="firma">Unternehmen (optional)</label>
+              <input type="text" id="firma" name="Unternehmen" />
+            </div>
+          </div>
+          <div class="req-row">
+            <div class="req-field">
+              <label for="email">E-Mail</label>
+              <input type="email" id="email" name="Email" required />
+            </div>
+            <div class="req-field">
+              <label for="telefon">Telefon</label>
+              <input type="tel" id="telefon" name="Telefon" required />
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="req-fieldset">
+          <legend class="req-legend">§ 02 — Anliegen</legend>
+          <div class="req-field">
+            <label>Worum geht es?</label>
+            <div class="req-radio"><input type="radio" name="Anliegen" value="Retainer-Vertrag abschließen" id="an1" checked /><label for="an1">Retainer-Vertrag abschließen</label></div>
+            <div class="req-radio"><input type="radio" name="Anliegen" value="Vorfall in der jüngeren Vergangenheit (nicht mehr akut)" id="an2" /><label for="an2">Vorfall in der jüngeren Vergangenheit (nicht mehr akut)</label></div>
+            <div class="req-radio"><input type="radio" name="Anliegen" value="Allgemeine Beratung" id="an3" /><label for="an3">Allgemeine Beratung</label></div>
+          </div>
+          <div class="req-field">
+            <label for="nachricht">Nachricht</label>
+            <textarea id="nachricht" name="Nachricht" rows="4" placeholder="Kurze Schilderung Ihres Anliegens oder Ihrer Infrastruktur (für Retainer-Angebot)"></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="req-fieldset">
+          <legend class="req-legend">§ 03 — Datenschutz</legend>
+          <div class="req-checkbox">
+            <input type="checkbox" id="dsgvo" name="DSGVO_Zustimmung" value="Ja" required />
+            <label for="dsgvo">Ich stimme der Verarbeitung meiner Daten zur Bearbeitung dieser Anfrage gemäß <a href="datenschutz.html" style="color:var(--neon-cyan);">Datenschutzerklärung</a> zu.</label>
+          </div>
+        </fieldset>
+
+        <button type="submit" class="btn-primary req-submit">
+          <span class="btn-icon">🔒</span> ANFRAGE VERSCHLÜSSELT SENDEN
+        </button>
+        <p class="req-form-status" id="reqStatus"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="logo-bracket">[</span>
+        <span class="logo-text">ZEROTRACE<span class="accent">37</span></span>
+        <span class="logo-bracket">]</span>
+        <p>Ihr Partner gegen Cyberkriminalität.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Services</h4>
+        <a href="index.html#services">Betrugsermittlung</a>
+        <a href="penetration-testing.html">Penetration Testing</a>
+        <a href="incident-response.html">Incident Response</a>
+        <a href="osint-leak-check.html">OSINT & Datenleck-Check</a>
+        <a href="rechtliche-begleitung.html">Rechtliche Begleitung</a>
+        <a href="https://tracekeeper.gumroad.com" target="_blank" rel="noopener">Security-Tools (Shop)</a>
+      </div>
+      <div class="footer-links">
+        <h4>Rechtliches</h4>
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
+        <a href="agb.html">AGB</a>
+      </div>
+      <div class="footer-links">
+        <h4>Kontakt</h4>
+        <a href="tel:+4917670683230">+49 176 706 83230</a>
+        <a href="mailto:root@zerotrace37.com">root@zerotrace37.com</a>
+        <a href="index.html#contact">Signal auf Anfrage</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 ZeroTrace37 — Alle Rechte vorbehalten</span>
+      <span class="footer-code">// ENCRYPTED CONNECTION ACTIVE</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    (function () {
+      var steps = document.querySelectorAll('.timeline-step');
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+      }, { threshold: 0.2 });
+      steps.forEach(function (s) { io.observe(s); });
+    })();
+
+    (function () {
+      var form = document.getElementById('reqForm');
+      var status = document.getElementById('reqStatus');
+      if (!form) return;
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var data = new FormData(form);
+        status.textContent = 'Wird verschlüsselt übermittelt...';
+        status.className = 'req-form-status';
+        fetch(form.action, {
+          method: 'POST',
+          body: data,
+          headers: { 'Accept': 'application/json' }
+        }).then(function (response) {
+          if (response.ok) {
+            status.textContent = '✓ Anfrage übermittelt. Wir melden uns kurzfristig.';
+            status.className = 'req-form-status ok';
+            form.reset();
+          } else {
+            status.textContent = '✗ Übermittlung fehlgeschlagen. Bitte per E-Mail an root@zerotrace37.com senden.';
+            status.className = 'req-form-status err';
+          }
+        }).catch(function () {
+          status.textContent = '✗ Verbindungsfehler. Bitte per E-Mail an root@zerotrace37.com senden.';
+          status.className = 'req-form-status err';
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

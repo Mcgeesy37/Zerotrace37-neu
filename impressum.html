@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Impressum — ZeroTrace37</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="theme-color" content="#00ff88" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-deep:      #020408;
+      --bg-card:      #080d14;
+      --bg-surface:   #0d1520;
+      --neon-green:   #00ff88;
+      --neon-cyan:    #00e5ff;
+      --neon-red:     #ff2d55;
+      --text-primary: #e2f0f0;
+      --text-muted:   #556070;
+      --border:       rgba(0,255,136,0.15);
+      --font-mono:    'Share Tech Mono', monospace;
+      --font-display: 'Orbitron', sans-serif;
+      --font-body:    'Exo 2', sans-serif;
+      --glow-green:   0 0 20px rgba(0,255,136,0.4);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* GRID OVERLAY */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,255,136,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,136,0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* SCANLINES */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 2px,
+        rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%;
+      height: 70px;
+      background: rgba(2,4,8,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.2rem;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      display: flex; align-items: center; gap: 2px;
+    }
+
+    .logo-bracket { color: var(--neon-green); opacity: 0.7; }
+    .logo-text { color: var(--text-primary); }
+    .logo-text .accent { color: var(--neon-green); }
+    .logo-blink { color: var(--neon-green); animation: blink 1s step-end infinite; }
+
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    .nav-back {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.3s;
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    .nav-back:hover { color: var(--neon-green); }
+
+    /* HERO STRIP */
+    .page-hero {
+      position: relative; z-index: 1;
+      padding: 120px 5% 60px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(0,255,136,0.03) 0%, transparent 100%);
+    }
+
+    .page-tag {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--neon-green);
+      letter-spacing: 0.2em;
+      margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    .page-tag::before {
+      content: '';
+      display: inline-block;
+      width: 30px; height: 1px;
+      background: var(--neon-green);
+    }
+
+    .page-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--neon-green) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.8rem;
+    }
+
+    .page-sub {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+    }
+
+    /* MAIN CONTENT */
+    .content-wrapper {
+      position: relative; z-index: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 60px 5% 100px;
+    }
+
+    .legal-block {
+      margin-bottom: 3rem;
+      padding: 2rem 2rem 2rem 1.5rem;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--neon-green);
+      background: var(--bg-card);
+      position: relative;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: blockReveal 0.6s ease forwards;
+    }
+
+    .legal-block:nth-child(1) { animation-delay: 0.1s; }
+    .legal-block:nth-child(2) { animation-delay: 0.2s; }
+    .legal-block:nth-child(3) { animation-delay: 0.3s; }
+    .legal-block:nth-child(4) { animation-delay: 0.4s; }
+    .legal-block:nth-child(5) { animation-delay: 0.5s; }
+    .legal-block:nth-child(6) { animation-delay: 0.6s; }
+    .legal-block:nth-child(7) { animation-delay: 0.7s; }
+
+    @keyframes blockReveal {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .legal-block::before {
+      content: '';
+      position: absolute; top: 0; right: 0;
+      width: 60px; height: 60px;
+      background: radial-gradient(circle at top right, rgba(0,255,136,0.06), transparent);
+      pointer-events: none;
+    }
+
+    .block-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--neon-green);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+      opacity: 0.8;
+    }
+
+    .legal-block h2 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+
+    .legal-block p,
+    .legal-block address {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.9;
+      font-style: normal;
+    }
+
+    .legal-block a {
+      color: var(--neon-cyan);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .legal-block a:hover { color: var(--neon-green); }
+
+    .data-row {
+      display: flex;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      padding: 0.5rem 0;
+    }
+
+    .data-row:last-child { border-bottom: none; }
+
+    .data-label {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--neon-green);
+      width: 180px;
+      flex-shrink: 0;
+      opacity: 0.8;
+    }
+
+    .data-value {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+
+    .data-value a {
+      color: var(--neon-cyan);
+      text-decoration: none;
+    }
+
+    .data-value a:hover { color: var(--neon-green); }
+
+    .notice-box {
+      background: rgba(0,229,255,0.05);
+      border: 1px solid rgba(0,229,255,0.2);
+      padding: 1rem 1.2rem;
+      margin-top: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--neon-cyan);
+      line-height: 1.7;
+    }
+
+    /* FOOTER */
+    .page-footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 5%;
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+    }
+
+    .page-footer span { color: var(--text-muted); }
+    .page-footer a { color: var(--neon-green); text-decoration: none; }
+
+    .footer-pulse {
+      color: var(--neon-green);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    @media (max-width: 600px) {
+      .data-row { flex-direction: column; gap: 0.2rem; }
+      .data-label { width: auto; }
+    }
+  </style>
+<meta name="description" content="Impressum von ZeroTrace37, Cybersecurity und digitale Forensik aus Berlin: Anbieterkennzeichnung und Kontakt.">
+<link rel="canonical" href="https://zerotrace37.com/impressum.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ZeroTrace37">
+<meta property="og:locale" content="de_DE">
+<meta property="og:title" content="Impressum — ZeroTrace37">
+<meta property="og:description" content="Impressum von ZeroTrace37, Cybersecurity und digitale Forensik aus Berlin: Anbieterkennzeichnung und Kontakt.">
+<meta property="og:url" content="https://zerotrace37.com/impressum.html">
+<meta property="og:image" content="https://zerotrace37.com/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Start", "item": "https://zerotrace37.com/"}, {"@type": "ListItem", "position": 2, "name": "Impressum", "item": "https://zerotrace37.com/impressum.html"}]}]}</script>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-bracket">[</span>
+      <span class="logo-text">ZERO<span class="accent">TRACE37</span></span>
+      <span class="logo-bracket">]</span>
+      <span class="logo-blink">_</span>
+    </a>
+    <a href="index.html" class="nav-back">← Zurück zur Hauptseite</a>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="page-tag">// RECHTLICHES</div>
+    <h1 class="page-title">Impressum</h1>
+    <p class="page-sub">Angaben gemäß § 5 TMG</p>
+  </div>
+
+  <!-- CONTENT -->
+  <main class="content-wrapper">
+
+    <div class="legal-block">
+      <div class="block-label">§ 01 — Anbieter</div>
+      <h2>Angaben zum Unternehmen</h2>
+      <div class="data-row">
+        <span class="data-label">Unternehmen</span>
+        <span class="data-value">Zerotrace37</span>
+      </div>
+      <div class="data-row">
+        <span class="data-label">Rechtsform</span>
+        <span class="data-value">Einzelunternehmen</span>
+      </div>
+      <div class="data-row">
+        <span class="data-label">Ort</span>
+        <span class="data-value">Berlin</span>
+      </div>
+      <div class="data-row">
+        <span class="data-label">Land</span>
+        <span class="data-value">Deutschland</span>
+      </div>
+    </div>
+    
+      <div class="legal-block">
+      <div class="block-label">§ 02 — Kontakt</div>
+      <h2>Kontaktdaten</h2>
+      <div class="data-row">
+        <span class="data-label">Telefon</span>
+        <span class="data-value"><a href="tel:+4917670683230">+49 176 70683230</a></span>
+      </div>
+      <div class="data-row">
+        <span class="data-label">E-Mail</span>
+        <span class="data-value"><a href="mailto:root@zerotrace37.com">root@zerotrace37.com</a></span>
+      </div>
+      <div class="data-row">
+        <span class="data-label">Website</span>
+        <span class="data-value"><a href="https://zerotrace37.com/">www.zerotrace37.com</a></span>
+      </div>
+    </div>
+
+    <div class="legal-block">
+      <div class="block-label">§ 03 — Verantwortlich</div>
+      <h2>Verantwortliche Person</h2>
+      <div class="data-row">
+        <span class="data-label">Name</span>
+        <span class="data-value">Soufian Ramon</span>
+      </div>
+      <div class="data-row">
+        <span class="data-label">Funktion</span>
+        <span class="data-value">Geschäftsführer</span>
+      </div>
+      <div class="data-row">
+        <span class="data-label">Anschrift</span>
+        <span class="data-value"></span>
+      </div>
+    </div>
+
+    <div class="legal-block">
+      <div class="block-label">§ 04 — Registrierung</div>
+      <h2>Handelsregister (falls zutreffend)</h2>
+      <div class="data-row">
+        <span class="data-label">Registergericht</span>
+        <span class="data-value">nicht eingetragen</span>
+      </div>
+      <div class="data-row">
+        <span class="data-label">Registernummer</span>
+        <span class="data-value">entfällt</span>
+      </div>
+      <div class="data-row">
+        <span class="data-label">USt-IdNr.</span>
+        <span class="data-value">nicht vorhanden</span>
+      </div>
+    </div>
+
+    <div class="legal-block">
+      <div class="block-label">§ 05 — Berufsrecht</div>
+      <h2>Berufsrechtliche Angaben</h2>
+      <p>
+        Sofern eine behördliche Zulassung oder berufsrechtliche Regelung besteht, wird diese hier angegeben.
+        Alle angebotenen Dienstleistungen im Bereich Cybersecurity und Penetration Testing werden
+        ausschließlich im Rahmen geltenden deutschen und europäischen Rechts erbracht.
+      </p>
+      <div class="notice-box">
+        ⚠ Penetration Tests und Sicherheitsanalysen werden ausschließlich auf Basis schriftlicher
+        Auftragserteilung und mit ausdrücklicher Genehmigung des Systeminhabers durchgeführt.
+      </div>
+    </div>
+
+    <div class="legal-block">
+      <div class="block-label">§ 06 — Haftung</div>
+      <h2>Haftungsausschluss für Inhalte</h2>
+      <p>
+        Die Inhalte dieser Website wurden mit größter Sorgfalt erstellt. Für die Richtigkeit,
+        Vollständigkeit und Aktualität der Inhalte übernehmen wir keine Gewähr. Als Diensteanbieter
+        sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen
+        Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht
+        verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach
+        Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
+      </p>
+    </div>
+
+    <div class="legal-block">
+      <div class="block-label">§ 07 — Links & Urheberrecht</div>
+      <h2>Externe Links & Urheberrecht</h2>
+      <p>
+        Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen
+        Einfluss haben. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter
+        verantwortlich. Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten
+        unterliegen dem deutschen Urheberrecht. Beiträge Dritter sind als solche gekennzeichnet.
+        Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der
+        Grenzen des Urheberrechts bedürfen der schriftlichen Zustimmung des jeweiligen Autors.
+      </p>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="page-footer">
+    <span>© 2025 Zerotrace37 — Alle Rechte vorbehalten</span>
+    <span class="footer-pulse">// ENCRYPTED CONNECTION ACTIVE</span>
+    <a href="datenschutz.html">Datenschutz</a>
+  </footer>
+
+</body>
+</html>

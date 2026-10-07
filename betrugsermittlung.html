@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Betrugsermittlung — ZeroTrace37</title>
+  <meta name="description" content="Aktive Unterstützung bei Cyberbetrug, Online-Banking-Betrug, CEO-Fraud, Krypto-Betrug und Identitätsdiebstahl. Sofortmaßnahmen, Spurensicherung, Täterermittlung — deutschlandweit, 24/7." />
+  <link rel="canonical" href="https://zerotrace37.com/betrugsermittlung.html" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="theme-color" content="#00ff88" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== PAGE-SPECIFIC ADDITIONS (Betrugsermittlung subpage) ===== */
+
+    .sub-hero { min-height: 55vh; padding: 140px 5% 60px; display: flex; align-items: center; position: relative; overflow: hidden; }
+    .sub-hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,255,136,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,136,0.04) 1px, transparent 1px);
+      background-size: 50px 50px; z-index: 0;
+    }
+    .sub-hero-content { position: relative; z-index: 1; max-width: 720px; }
+    .breadcrumb { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.08em; margin-bottom: 1.5rem; }
+    .breadcrumb a { color: var(--neon-cyan); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--neon-green); }
+    .sub-hero h1 {
+      font-family: var(--font-display); font-size: clamp(2.1rem, 4.6vw, 3.4rem); font-weight: 900;
+      letter-spacing: 0.02em; line-height: 1.15;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--neon-green) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: 1.2rem;
+    }
+    .sub-hero-sub { color: var(--text-muted); font-size: 1.05rem; line-height: 1.8; margin-bottom: 2rem; }
+
+    .box-label {
+      font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.15em;
+      color: var(--neon-green); border: 1px solid rgba(0,255,136,0.3);
+      display: inline-block; padding: 0.2rem 0.6rem; margin-bottom: 1rem;
+    }
+    .fraud-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
+      max-width: 1200px; margin: 0 auto; padding: 0 5%;
+    }
+    @media (max-width: 1100px) { .fraud-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .fraud-grid { grid-template-columns: 1fr; } }
+
+    /* Timeline (shared pattern) */
+    .timeline-section { padding: 100px 5%; }
+    .timeline { max-width: 900px; margin: 0 auto; position: relative; padding-left: 40px; }
+    .timeline::before {
+      content: ''; position: absolute; left: 13px; top: 10px; bottom: 10px; width: 2px;
+      background: linear-gradient(to bottom, var(--neon-green), rgba(0,255,136,0.1));
+    }
+    .timeline-step { position: relative; padding-bottom: 3rem; opacity: 0; transform: translateX(-20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .timeline-step.visible { opacity: 1; transform: translateX(0); }
+    .timeline-step:last-child { padding-bottom: 0; }
+    .timeline-dot {
+      position: absolute; left: -40px; top: 2px; width: 28px; height: 28px; border-radius: 50%;
+      background: var(--bg-deep); border: 2px solid var(--neon-green);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono); font-size: 0.75rem; color: var(--neon-green);
+      box-shadow: 0 0 12px rgba(0,255,136,0.3);
+    }
+    .timeline-content { background: var(--bg-card); border: 1px solid var(--border); padding: 1.5rem 1.8rem; }
+    .timeline-content h3 { font-family: var(--font-display); font-size: 1rem; letter-spacing: 0.04em; color: var(--text-primary); margin-bottom: 0.6rem; }
+    .timeline-content p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.7; }
+    .timeline-phase-tag { font-family: var(--font-mono); font-size: 0.65rem; color: var(--neon-cyan); letter-spacing: 0.1em; margin-bottom: 0.4rem; display: block; }
+    .timeline-sla { font-family: var(--font-mono); font-size: 0.7rem; color: var(--neon-red); margin-top: 0.5rem; display: block; }
+
+    /* Cross-link callouts */
+    .crosslink-section { padding: 0 5% 100px; }
+    .crosslink-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; max-width: 1000px; margin: 0 auto; }
+    @media (max-width: 700px) { .crosslink-grid { grid-template-columns: 1fr; } }
+    .crosslink-card {
+      display: block; background: var(--bg-card); border: 1px solid var(--border);
+      padding: 1.6rem; text-decoration: none; transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+    .crosslink-card:hover { border-color: rgba(0,255,136,0.4); transform: translateY(-3px); }
+    .crosslink-card span.cl-tag { font-family: var(--font-mono); font-size: 0.65rem; color: var(--neon-green); letter-spacing: 0.12em; }
+    .crosslink-card h3 { font-family: var(--font-display); font-size: 1rem; color: var(--text-primary); margin: 0.5rem 0; }
+    .crosslink-card p { color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; }
+
+    /* FAQ */
+    .faq-section { padding: 0 5% 100px; }
+    .faq-list { max-width: 800px; margin: 0 auto; }
+    .faq-item { background: var(--bg-card); border: 1px solid var(--border); margin-bottom: 0.8rem; overflow: hidden; }
+    .faq-item summary {
+      font-family: var(--font-display); font-size: 0.9rem; color: var(--text-primary);
+      padding: 1.1rem 1.4rem; cursor: pointer; list-style: none;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after { content: '+'; color: var(--neon-green); font-size: 1.3rem; font-family: var(--font-mono); transition: transform 0.3s ease; }
+    .faq-item[open] summary::after { transform: rotate(45deg); }
+    .faq-item p { color: var(--text-muted); font-size: 0.88rem; line-height: 1.75; padding: 0 1.4rem 1.3rem; }
+
+    .urgency-box { position: relative; padding: 1.5rem; border: 1px solid rgba(255,45,85,0.4); background: rgba(255,45,85,0.05); overflow: hidden; margin-bottom: 2.5rem; max-width: 1000px; margin-left: auto; margin-right: auto; }
+    .urgency-pulse { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--neon-red); animation: urgencyPulse 1.5s ease-in-out infinite; }
+    @keyframes urgencyPulse { 0%,100% { opacity: 0.5; box-shadow: none; } 50% { opacity: 1; box-shadow: 0 0 15px var(--neon-red); } }
+    .urgency-box strong { font-family: var(--font-display); font-size: 0.9rem; color: var(--neon-red); letter-spacing: 0.05em; display: block; margin-bottom: 0.5rem; }
+    .urgency-box p { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1rem; }
+
+    /* ===== REQUEST FORM ===== */
+    .req-section { padding: 0 5% 120px; }
+    .req-wrapper { max-width: 820px; margin: 0 auto; }
+    .req-notice {
+      background: rgba(0,255,136,0.04); border: 1px solid rgba(0,255,136,0.25);
+      padding: 1.2rem 1.4rem; margin-bottom: 2.5rem;
+      font-family: var(--font-mono); font-size: 0.8rem; color: var(--neon-green); line-height: 1.7;
+    }
+    .req-form { background: var(--bg-card); border: 1px solid var(--border); padding: 2.5rem; }
+    .req-fieldset { border: none; margin-bottom: 2.2rem; padding: 0; }
+    .req-fieldset:last-of-type { margin-bottom: 0; }
+    .req-legend {
+      font-family: var(--font-mono); font-size: 0.68rem; color: var(--neon-green);
+      letter-spacing: 0.18em; text-transform: uppercase;
+      border-bottom: 1px solid var(--border); padding-bottom: 0.6rem; margin-bottom: 1.3rem;
+      width: 100%; display: block;
+    }
+    .req-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.2rem; }
+    .req-field { margin-bottom: 1.2rem; }
+    .req-field:last-child { margin-bottom: 0; }
+    .req-field label { display: block; font-family: var(--font-mono); font-size: 0.72rem; color: var(--neon-cyan); letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+    .req-field input[type="text"], .req-field input[type="email"], .req-field input[type="tel"], .req-field textarea, .req-field select {
+      width: 100%; background: var(--bg-deep); border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text-primary); font-family: var(--font-mono); font-size: 0.85rem;
+      padding: 0.75rem 0.9rem; outline: none; resize: vertical;
+    }
+    .req-field select option { background: var(--bg-card); }
+    .req-field input:focus, .req-field textarea:focus, .req-field select:focus { border-color: var(--neon-green); }
+    .req-hint { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.4rem; }
+    .req-checkbox, .req-radio { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 0.5rem; }
+    .req-checkbox input, .req-radio input { margin-top: 3px; accent-color: var(--neon-green); flex-shrink: 0; }
+    .req-submit { width: 100%; margin-top: 0.5rem; }
+    .req-form-status { margin-top: 1rem; font-family: var(--font-mono); font-size: 0.8rem; text-align: center; min-height: 1.4em; }
+    .req-form-status.ok { color: var(--neon-green); }
+    .req-form-status.err { color: var(--neon-red); }
+
+    @media (max-width: 900px) {
+      .req-row { grid-template-columns: 1fr; }
+      .req-form { padding: 1.5rem; }
+    }
+  </style>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ZeroTrace37">
+<meta property="og:locale" content="de_DE">
+<meta property="og:title" content="Betrugsermittlung — ZeroTrace37">
+<meta property="og:description" content="Aktive Unterstützung bei Cyberbetrug, Online-Banking-Betrug, CEO-Fraud, Krypto-Betrug und Identitätsdiebstahl. Sofortmaßnahmen, Spurensicherung, Täterermittlung — deutschlandweit, 24/7.">
+<meta property="og:url" content="https://zerotrace37.com/betrugsermittlung.html">
+<meta property="og:image" content="https://zerotrace37.com/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Start", "item": "https://zerotrace37.com/"}, {"@type": "ListItem", "position": 2, "name": "Betrugsermittlung", "item": "https://zerotrace37.com/betrugsermittlung.html"}]}, {"@type": "Service", "name": "Betrugsermittlung", "description": "Aktive Unterstützung bei Cyberbetrug, Online-Banking-Betrug, CEO-Fraud, Krypto-Betrug und Identitätsdiebstahl. Sofortmaßnahmen, Spurensicherung, Täterermittlung — deutschlandweit, 24/7.", "url": "https://zerotrace37.com/betrugsermittlung.html", "areaServed": {"@type": "Country", "name": "Deutschland"}, "provider": {"@type": "ProfessionalService", "@id": "https://zerotrace37.com/#organization", "name": "ZeroTrace37", "url": "https://zerotrace37.com/", "telephone": "+4917670683230"}}]}</script>
+</head>
+<body>
+
+  <canvas id="matrixCanvas"></canvas>
+  <div class="scanlines"></div>
+  <div class="noise-overlay"></div>
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo" style="text-decoration:none;">
+      <span class="logo-bracket">[</span>
+      <span class="logo-text">ZEROTRACE<span class="accent">37</span></span>
+      <span class="logo-bracket">]</span>
+      <span class="logo-blink">_</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#home" class="nav-link">HOME</a></li>
+      <li><a href="index.html#services" class="nav-link">SERVICES</a></li>
+      <li><a href="#ablauf" class="nav-link">ABLAUF</a></li>
+      <li><a href="#anfrage" class="nav-link">ANFRAGE</a></li>
+      <li><a href="index.html#contact" class="nav-link cta-nav">KONTAKT</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ===== SUB HERO ===== -->
+  <section class="sub-hero">
+    <div class="sub-hero-grid"></div>
+    <div class="sub-hero-content">
+      <div class="breadcrumb"><a href="index.html">Home</a> // <a href="index.html#services">Services</a> // Betrugsermittlung</div>
+      <h1>Betrugsermittlung</h1>
+      <p class="sub-hero-sub">
+        Online-Banking-Betrug, CEO-Fraud, Krypto-Scam oder Identitätsdiebstahl — je schneller wir eingebunden werden,
+        desto größer die Chance, Transfers zu stoppen und Täter zurückzuverfolgen.
+      </p>
+      <div class="hero-buttons">
+        <a href="#anfrage" class="btn-primary"><span class="btn-icon">⚡</span> FALL MELDEN</a>
+        <a href="#ablauf" class="btn-secondary"><span class="btn-icon">⬡</span> ABLAUF ANSEHEN</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FRAUD TYPES ===== -->
+  <section class="services">
+    <div class="section-header">
+      <div class="section-tag">// FALLTYPEN</div>
+      <h2 class="section-title">Womit wir helfen</h2>
+      <p class="section-sub">Vier häufige Betrugsmaschen — jede mit eigenem Vorgehen.</p>
+    </div>
+    <div class="fraud-grid">
+
+      <div class="service-card" data-delay="0">
+        <div class="card-glow"></div>
+        <span class="box-label">BANKING</span>
+        <h3>Überweisungsbetrug</h3>
+        <p>Gefälschte Rechnungen, Phishing-Links oder manipulierte Zahlungsaufforderungen — wir versuchen, Transfers zu stoppen, bevor das Geld unwiederbringlich ist.</p>
+        <div class="card-tags"><span>Transferstopp</span><span>Bankkontakt</span></div>
+      </div>
+
+      <div class="service-card featured" data-delay="100">
+        <div class="card-glow"></div>
+        <div class="featured-badge">HÄUFIGSTE ANFRAGE</div>
+        <span class="box-label">UNTERNEHMEN</span>
+        <h3>CEO-Fraud</h3>
+        <p>Gefälschte Anweisungen vermeintlicher Geschäftsführer an die Buchhaltung — wir rekonstruieren den Angriffsweg und sichern Beweise für Anzeige und Versicherung.</p>
+        <div class="card-tags"><span>Rekonstruktion</span><span>Beweise</span></div>
+      </div>
+
+      <div class="service-card" data-delay="200">
+        <div class="card-glow"></div>
+        <span class="box-label">KRYPTO</span>
+        <h3>Krypto-Betrug</h3>
+        <p>Fake-Investment-Plattformen, Pig-Butchering-Scams oder manipulierte Wallets — Blockchain-Analyse zur Nachverfolgung der Transaktionswege.</p>
+        <div class="card-tags"><span>Blockchain-Analyse</span><span>Tracking</span></div>
+      </div>
+
+      <div class="service-card" data-delay="300">
+        <div class="card-glow"></div>
+        <span class="box-label">IDENTITÄT</span>
+        <h3>Identitätsdiebstahl</h3>
+        <p>Accounts, die in Ihrem Namen eröffnet wurden, oder gestohlene Identitätsdaten im Umlauf — wir klären Umfang und Ursprung.</p>
+        <div class="card-tags"><span>Aufklärung</span><span>Absicherung</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== PROCESS TIMELINE ===== -->
+  <section class="timeline-section" id="ablauf">
+    <div class="section-header">
+      <div class="section-tag">// VORGEHEN</div>
+      <h2 class="section-title">So läuft die Ermittlung ab</h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-step">
+        <div class="timeline-dot">1</div>
+        <div class="timeline-content">
+          <span class="timeline-phase-tag">// SCHRITT 1</span>
+          <h3>Sofortmaßnahmen</h3>
+          <p>Bei noch laufenden Transfers zählt jede Minute — wir leiten sofort erste Schritte ein, um Banken oder Plattformen zu kontaktieren.</p>
+          <span class="timeline-sla">// Bei akutem Verdacht: Hotline statt Formular</span>
+        </div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-dot">2</div>
+        <div class="timeline-content">
+          <span class="timeline-phase-tag">// SCHRITT 2</span>
+          <h3>Spurensicherung</h3>
+          <p>E-Mails, Nachrichten, Transaktionsdaten und Metadaten werden forensisch sauber gesichert und dokumentiert.</p>
+        </div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-dot">3</div>
+        <div class="timeline-content">
+          <span class="timeline-phase-tag">// SCHRITT 3</span>
+          <h3>OSINT-Recherche & Täterermittlung</h3>
+          <p>Digitale Spurensuche zur Identifikation von Infrastruktur, Konten und — wo möglich — der handelnden Personen.</p>
+        </div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-dot">4</div>
+        <div class="timeline-content">
+          <span class="timeline-phase-tag">// SCHRITT 4</span>
+          <h3>Bank- & Behördenkontakt</h3>
+          <p>Wir kommunizieren direkt mit Banken, Zahlungsdienstleistern und Ermittlungsbehörden, um den Fall technisch fundiert voranzutreiben.</p>
+        </div>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-dot">5</div>
+        <div class="timeline-content">
+          <span class="timeline-phase-tag">// OPTIONAL</span>
+          <h3>Rechtliche Weiterleitung</h3>
+          <p>Bei Anzeigenstellung übernehmen wir die technische Aufbereitung — siehe Rechtliche Begleitung unten.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CROSS-LINKS ===== -->
+  <section class="crosslink-section">
+    <div class="section-header">
+      <div class="section-tag">// PASST DAZU</div>
+      <h2 class="section-title">Verwandte Leistungen</h2>
+    </div>
+    <div class="crosslink-grid">
+      <a href="osint-leak-check.html" class="crosslink-card">
+        <span class="cl-tag">OSINT & DATENLECK-CHECK</span>
+        <h3>Wurden Ihre Daten missbraucht?</h3>
+        <p>Prüfen Sie, ob Ihre Identität in Breach-Datenbanken oder im Darknet auftaucht.</p>
+      </a>
+      <a href="rechtliche-begleitung.html" class="crosslink-card">
+        <span class="cl-tag">RECHTLICHE BEGLEITUNG</span>
+        <h3>Anzeige erstatten?</h3>
+        <p>Beweissicherung, Anzeigenvorbereitung und Behördenkommunikation aus einer Hand.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="faq-section">
+    <div class="section-header">
+      <div class="section-tag">// FAQ</div>
+      <h2 class="section-title">Häufige Fragen</h2>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary>Kann eine Überweisung noch gestoppt werden?</summary>
+        <p>Solange der Transfer noch nicht final verbucht ist, bestehen reale Chancen — insbesondere bei internationalen Überweisungen, die mehrere Tage brauchen. Je früher Sie sich melden, desto besser die Erfolgsaussichten.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Ist bei Krypto-Betrug überhaupt etwas zu machen?</summary>
+        <p>Blockchain-Transaktionen sind öffentlich einsehbar und lassen sich analysieren. Eine Rückerstattung ist nicht garantiert, aber die Nachverfolgung des Geldflusses liefert oft entscheidende Beweise für Anzeige und Ermittlung.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Muss ich zuerst zur Polizei?</summary>
+        <p>Nein. Viele Betroffene kommen zuerst zu uns, weil die technische Aufarbeitung Zeit braucht, die eine Anzeige allein nicht leistet. Wir können parallel oder im Anschluss bei der Anzeigenstellung unterstützen.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Was, wenn der Täter im Ausland sitzt?</summary>
+        <p>Das erschwert die strafrechtliche Verfolgung, schließt sie aber nicht aus. Wir dokumentieren die Infrastruktur so vollständig wie möglich — für internationale Rechtshilfeersuchen und als Grundlage für Plattform-Meldungen.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ===== REQUEST FORM ===== -->
+  <section class="req-section" id="anfrage">
+    <div class="section-header">
+      <div class="section-tag">// ANFRAGE</div>
+      <h2 class="section-title">Fall melden</h2>
+      <p class="section-sub">Vertraulich behandelt, ausschließlich zur Bearbeitung Ihrer Anfrage genutzt.</p>
+    </div>
+
+    <div class="req-wrapper">
+
+      <div class="urgency-box">
+        <div class="urgency-pulse"></div>
+        <strong>Läuft die Überweisung gerade noch?</strong>
+        <p>Dann nutzen Sie bitte nicht dieses Formular, sondern rufen Sie sofort an — bei laufenden Transfers zählt jede Minute.</p>
+        <a href="tel:+4917670683230" class="btn-primary btn-small">JETZT ANRUFEN</a>
+      </div>
+
+      <div class="req-notice">
+        ℹ Schildern Sie den Vorfall so konkret wie möglich — Betrag, Zeitpunkt, beteiligte Konten oder Plattformen helfen uns, sofort loszulegen.
+      </div>
+
+      <!--
+        SETUP: Diese Form sendet per Formspree (kostenlos) an deine E-Mail.
+        1. Auf https://formspree.io kostenlos registrieren
+        2. Neues Formular anlegen, deine E-Mail-Adresse bestätigen
+        3. Die Formular-ID aus der Formspree-URL kopieren
+        4. Unten "DEINE-FORMSPREE-ID" durch diese ID ersetzen
+      -->
+      <form class="req-form" id="reqForm" action="https://formspree.io/f/xdawolnz" method="POST">
+
+        <fieldset class="req-fieldset">
+          <legend class="req-legend">§ 01 — Kontaktdaten</legend>
+          <div class="req-row">
+            <div class="req-field">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="Name" required />
+            </div>
+            <div class="req-field">
+              <label for="email">E-Mail</label>
+              <input type="email" id="email" name="Email" required />
+            </div>
+          </div>
+          <div class="req-field">
+            <label for="telefon">Telefon</label>
+            <input type="tel" id="telefon" name="Telefon" required />
+          </div>
+        </fieldset>
+
+        <fieldset class="req-fieldset">
+          <legend class="req-legend">§ 02 — Art des Betrugs</legend>
+          <div class="req-field">
+            <label for="fallart">Fallart</label>
+            <select id="fallart" name="Fallart" required>
+              <option value="" disabled selected>— Bitte wählen —</option>
+              <option>Überweisungsbetrug / Phishing</option>
+              <option>CEO-Fraud</option>
+              <option>Krypto-Betrug</option>
+              <option>Identitätsdiebstahl</option>
+              <option>Sonstiges</option>
+            </select>
+          </div>
+          <div class="req-field">
+            <label>Ist der Transfer noch nicht abgeschlossen?</label>
+            <div class="req-radio"><input type="radio" name="Transfer_laufend" value="Ja, noch nicht abgeschlossen" id="tl1" /><label for="tl1">Ja</label></div>
+            <div class="req-radio"><input type="radio" name="Transfer_laufend" value="Nein, bereits abgeschlossen" id="tl2" checked /><label for="tl2">Nein, bereits abgeschlossen</label></div>
+            <div class="req-radio"><input type="radio" name="Transfer_laufend" value="Trifft nicht zu" id="tl3" /><label for="tl3">Trifft nicht zu</label></div>
+          </div>
+          <div class="req-field">
+            <label for="beschreibung">Kurzbeschreibung</label>
+            <textarea id="beschreibung" name="Beschreibung" rows="5" placeholder="Was ist passiert, wann, welcher Betrag, welche Konten/Plattformen sind beteiligt?" required></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset class="req-fieldset">
+          <legend class="req-legend">§ 03 — Datenschutz</legend>
+          <div class="req-checkbox">
+            <input type="checkbox" id="dsgvo" name="DSGVO_Zustimmung" value="Ja" required />
+            <label for="dsgvo">Ich stimme der Verarbeitung meiner Daten zur Bearbeitung dieser Anfrage gemäß <a href="datenschutz.html" style="color:var(--neon-cyan);">Datenschutzerklärung</a> zu.</label>
+          </div>
+        </fieldset>
+
+        <button type="submit" class="btn-primary req-submit">
+          <span class="btn-icon">🔒</span> ANFRAGE VERSCHLÜSSELT SENDEN
+        </button>
+        <p class="req-form-status" id="reqStatus"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="logo-bracket">[</span>
+        <span class="logo-text">ZEROTRACE<span class="accent">37</span></span>
+        <span class="logo-bracket">]</span>
+        <p>Ihr Partner gegen Cyberkriminalität.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Services</h4>
+        <a href="betrugsermittlung.html">Betrugsermittlung</a>
+        <a href="penetration-testing.html">Penetration Testing</a>
+        <a href="incident-response.html">Incident Response</a>
+        <a href="privatpersonen-schutz.html">Privatpersonen-Schutz</a>
+        <a href="forensik.html">Spyware-Scan</a>
+        <a href="rechtliche-begleitung.html">Rechtliche Begleitung</a>
+        <a href="https://tracekeeper.gumroad.com" target="_blank" rel="noopener">🛒 Security-Tools (Shop)</a>
+      </div>
+      <div class="footer-links">
+        <h4>Rechtliches</h4>
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
+        <a href="agb.html">AGB</a>
+      </div>
+      <div class="footer-links">
+        <h4>Kontakt</h4>
+        <a href="tel:+4917670683230">+49 176 706 83230</a>
+        <a href="mailto:root@zerotrace37.com">root@zerotrace37.com</a>
+        <a href="index.html#contact">Signal auf Anfrage</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 ZeroTrace37 — Alle Rechte vorbehalten</span>
+      <span class="footer-code">// ENCRYPTED CONNECTION ACTIVE</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    (function () {
+      var steps = document.querySelectorAll('.timeline-step');
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+      }, { threshold: 0.2 });
+      steps.forEach(function (s) { io.observe(s); });
+    })();
+
+    (function () {
+      var form = document.getElementById('reqForm');
+      var status = document.getElementById('reqStatus');
+      if (!form) return;
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var data = new FormData(form);
+        status.textContent = 'Wird verschlüsselt übermittelt...';
+        status.className = 'req-form-status';
+        fetch(form.action, {
+          method: 'POST',
+          body: data,
+          headers: { 'Accept': 'application/json' }
+        }).then(function (response) {
+          if (response.ok) {
+            status.textContent = '✓ Anfrage übermittelt. Wir melden uns kurzfristig.';
+            status.className = 'req-form-status ok';
+            form.reset();
+          } else {
+            status.textContent = '✗ Übermittlung fehlgeschlagen. Bitte per E-Mail an root@zerotrace37.com senden.';
+            status.className = 'req-form-status err';
+          }
+        }).catch(function () {
+          status.textContent = '✗ Verbindungsfehler. Bitte per E-Mail an root@zerotrace37.com senden.';
+          status.className = 'req-form-status err';
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

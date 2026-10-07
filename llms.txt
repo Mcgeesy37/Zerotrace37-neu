@@ -1,0 +1,30 @@
+# ZeroTrace37
+
+> ZeroTrace37 ist ein auf Cybersecurity und digitale Forensik spezialisiertes Team mit Sitz in Berlin. Wir unterstützen Unternehmen und Privatpersonen bei Cyberbetrug, Sicherheitslücken, akuten Angriffen und digitaler Überwachung — technisch fundiert, vertraulich und mit rechtlicher Begleitung.
+
+ZeroTrace37 bietet Penetration Testing, Incident Response, Betrugsermittlung, OSINT- und Datenleck-Checks, forensische Spyware-Scans (MVT-Toolkit) sowie Schutz für Privatpersonen bei Stalking, Doxxing und Erpressung. Alle Leistungen sind deutschlandweit verfügbar, mit 24/7-Notfall-Hotline für akute Sicherheitsvorfälle.
+
+## Leistungen
+
+- [Penetration Testing](https://zerotrace37.com/penetration-testing.html): Black-, Grey- und White-Box-Tests für Web-Anwendungen, Netzwerke und Infrastruktur nach OWASP/PTES-Methodik, inklusive Rules-of-Engagement-Freigabeverfahren.
+- [Incident Response](https://zerotrace37.com/incident-response.html): Sofortreaktion bei laufenden Cyberangriffen — Schadensbegrenzung, forensische Analyse, Wiederherstellung. Optional als Retainer mit garantierter Reaktionszeit.
+- [Betrugsermittlung](https://zerotrace37.com/betrugsermittlung.html): Aktive Unterstützung bei Cyberbetrug, Online-Banking-Betrug, CEO-Fraud, Krypto-Betrug und Identitätsdiebstahl — Sofortmaßnahmen, Spurensicherung, Täterermittlung.
+- [OSINT & Datenleck-Check](https://zerotrace37.com/osint-leak-check.html): Prüfung, welche eigenen Daten in Breach-Datenbanken, Suchmaschinen oder im Darknet auffindbar sind, inklusive Doxx-Schutz-Paket.
+- [Spyware-Scan](https://zerotrace37.com/forensik.html): Forensischer Malware- und Spyware-Scan für iOS und Android mit dem MVT-Toolkit, gegen Stalkerware und Staatstrojaner.
+- [Privatpersonen-Schutz](https://zerotrace37.com/privatpersonen-schutz.html): Diskrete Unterstützung bei Stalking, Doxxing, Romance Scam und Erpressung.
+- [Rechtliche Begleitung](https://zerotrace37.com/rechtliche-begleitung.html): Forensische Beweissicherung, Unterstützung bei Anzeigenstellung und Behördenkommunikation.
+
+## Rechtliches
+
+- [Impressum](https://zerotrace37.com/impressum.html)
+- [Datenschutzerklärung](https://zerotrace37.com/datenschutz.html)
+- [AGB](https://zerotrace37.com/agb.html)
+
+## Tools
+
+- [Security-Tools Shop](https://tracekeeper.gumroad.com): Eigenständige Single-File-Sicherheitstools für Audits, OSINT und DSGVO-Checks — sofort einsetzbar, ohne Abo.
+
+## Kontakt
+
+Notfall-Hotline (24/7): +49 176 70683230
+E-Mail: root@zerotrace37.com
