@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="ZeroTrace37: Security-Audits, Penetrationstests, OSINT und Dark-Web-Monitoring aus Berlin.">
+<title>ZeroTrace37 | IT-Sicherheit aus Berlin</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one fixed full-viewport stage (the trace) behind six scroll stations; text column left, visual right. Single dark look by choice. */
+:root{
+  color-scheme:dark;
+  --bg:#050706; --surface:#0b100d; --line:#1a2620;
+  --fg:#e6efe9; --muted:#8c9c93;
+  --accent:#00ff88; --alert:#ff4d4d;
+  --display:"Archivo","Arial Narrow",Arial,sans-serif;
+  --body:"Archivo",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --gutter:clamp(20px,5vw,72px);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.6;overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+#stage{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block}
+.scrim{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:linear-gradient(90deg,var(--bg) 0%,rgba(5,7,6,.82) 38%,rgba(5,7,6,0) 70%)}
+
+.top{position:fixed;top:0;left:0;right:0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:16px;
+  padding:calc(14px + env(safe-area-inset-top,0px)) var(--gutter) 14px;
+  background:linear-gradient(var(--bg),rgba(5,7,6,0))}
+.brand{font-family:var(--display);font-stretch:125%;font-weight:800;letter-spacing:.06em;font-size:15px;text-decoration:none}
+.brand b{color:var(--accent);font-weight:800}
+.btn{display:inline-block;font-family:var(--mono);font-size:13px;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;
+  padding:12px 18px;border:1px solid var(--accent);color:var(--bg);background:var(--accent);cursor:pointer;transition:background .2s,color .2s}
+.btn:hover{background:transparent;color:var(--accent)}
+.btn.ghost{background:transparent;color:var(--fg);border-color:var(--line)}
+.btn.ghost:hover{border-color:var(--accent);color:var(--accent)}
+.top .btn{padding:9px 14px;font-size:12px}
+
+main{position:relative;z-index:1}
+.station{min-height:100vh;display:flex;align-items:center;padding-block:110px;padding-inline:var(--gutter)}
+.copy{max-width:560px;min-width:0;display:flex;flex-direction:column;gap:22px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+h1,h2{font-family:var(--display);font-stretch:112%;font-weight:700;line-height:1.02;letter-spacing:-.02em;margin:0;text-wrap:balance}
+h1{font-size:clamp(40px,7.2vw,88px)}
+h2{font-size:clamp(32px,5vw,60px)}
+p{margin:0;color:var(--muted);max-width:60ch}
+p.lead{color:var(--fg);font-size:19px}
+.row{display:flex;flex-wrap:wrap;gap:12px}
+.gets{list-style:none;margin:0;padding:0;border-top:1px solid var(--line);font-family:var(--mono);font-size:13px}
+.gets li{padding:11px 0;border-bottom:1px solid var(--line);display:flex;gap:14px}
+.gets li::before{content:">";color:var(--accent)}
+
+.finding{border:1px solid var(--line);background:var(--surface);font-family:var(--mono);font-size:13px}
+.finding header{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted)}
+.finding .sev{color:var(--alert)}
+.finding dl{margin:0;padding:12px 14px;display:grid;grid-template-columns:auto 1fr;gap:8px 16px}
+.finding dt{color:var(--muted)}
+.finding dd{margin:0;min-width:0}
+
+.steps{list-style:none;margin:0;padding:0;counter-reset:s;display:flex;flex-direction:column}
+.steps li{counter-increment:s;display:grid;grid-template-columns:44px 1fr;gap:4px 0;padding:12px 0;border-bottom:1px solid var(--line)}
+.steps li::before{content:counter(s,decimal-leading-zero);font-family:var(--mono);font-size:12px;color:var(--accent);padding-top:4px}
+.steps strong{font-weight:600}
+.steps span{grid-column:2;color:var(--muted);font-size:15px}
+
+form{display:flex;flex-direction:column;gap:14px;border:1px solid var(--line);background:var(--surface);padding:20px;font-family:var(--mono);font-size:14px}
+label{display:flex;flex-direction:column;gap:6px;color:var(--muted);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+input,select,textarea{font:inherit;font-size:16px;letter-spacing:0;text-transform:none;color:var(--fg);background:var(--bg);border:1px solid var(--line);padding:11px 12px;border-radius:0;width:100%}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent)}
+textarea{min-height:96px;resize:vertical}
+#out{color:var(--accent);white-space:pre-wrap;margin:0;font-size:13px}
+
+footer{position:relative;z-index:1;padding:28px var(--gutter) 90px;border-top:1px solid var(--line);font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:8px 24px;background:var(--bg)}
+
+.hud{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;align-items:center;gap:16px;
+  padding:12px var(--gutter) calc(12px + env(safe-area-inset-bottom,0px));
+  font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+  background:linear-gradient(rgba(5,7,6,0),var(--bg) 60%);font-variant-numeric:tabular-nums}
+.hud b{color:var(--accent);font-weight:500}
+.bar{flex:1;height:1px;background:var(--line);position:relative;min-width:40px}
+.bar i{position:absolute;left:0;top:-1px;height:3px;width:0;background:var(--accent)}
+.ph{white-space:nowrap}
+
+@media (max-width:760px){
+  body{font-size:16px}
+  #stage{opacity:.5}
+  .scrim{background:linear-gradient(rgba(5,7,6,.55),rgba(5,7,6,.78))}
+  .station{padding-block:90px}
+  .ph{display:none}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body style="margin:0">
+
+<canvas id="stage" aria-hidden="true"></canvas>
+<div class="scrim"></div>
+
+<div class="top">
+  <a class="brand" href="#start">ZERO<b>TRACE</b>37</a>
+  <a class="btn" href="#kontakt">Erstgespräch</a>
+</div>
+
+<main>
+  <section class="station" id="start" data-name="Spur">
+    <div class="copy">
+      <div class="eyebrow">IT-Sicherheit aus Berlin</div>
+      <h1 data-decode>Wir folgen der Spur, bevor es ein Angreifer tut.</h1>
+      <p class="lead">Audits, Penetrationstests, OSINT und Dark-Web-Monitoring für Unternehmen, die wissen wollen, wo sie wirklich stehen.</p>
+      <div class="row">
+        <a class="btn" href="#kontakt">Erstgespräch anfragen</a>
+        <a class="btn ghost" href="#osint">Der Spur folgen</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="station" id="osint" data-name="OSINT">
+    <div class="copy">
+      <div class="eyebrow">OSINT</div>
+      <h2 data-decode>Was das Netz über Sie weiß.</h2>
+      <p>Wir sammeln, was öffentlich über Ihr Unternehmen auffindbar ist: Domains, Subdomains, Konten von Mitarbeitenden, vergessene Systeme. Sie sehen Ihre Angriffsfläche so, wie ein Angreifer sie sieht.</p>
+      <ul class="gets">
+        <li>Karte Ihrer öffentlichen Angriffsfläche</li>
+        <li>Liste exponierter Konten und Systeme</li>
+        <li>Sofortmaßnahmen, nach Risiko sortiert</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="station" id="pentest" data-name="Pentest">
+    <div class="copy">
+      <div class="eyebrow">Penetrationstest</div>
+      <h2 data-decode>Wir brechen ein. Mit Auftrag.</h2>
+      <p>Ein kontrollierter Angriff auf Web-Anwendungen, APIs und Infrastruktur, schriftlich freigegeben und sauber abgegrenzt. Jeder Befund kommt mit Nachweis, Risikoeinstufung und Reparaturanleitung.</p>
+      <div class="finding">
+        <header><span>Beispielbefund (fiktiv)</span><span class="sev">Kritisch</span></header>
+        <dl>
+          <dt>Befund</dt><dd>Admin-Login über vergessene Subdomain erreichbar, ohne zweiten Faktor</dd>
+          <dt>Nachweis</dt><dd>Screenshot, Request-Protokoll</dd>
+          <dt>Maßnahme</dt><dd>Subdomain abschalten, 2FA erzwingen</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="station" id="darkweb" data-name="Dark Web">
+    <div class="copy">
+      <div class="eyebrow">Dark-Web-Monitoring</div>
+      <h2 data-decode>Wissen, wenn Ihre Daten gehandelt werden.</h2>
+      <p>Wir überwachen Leak-Quellen und Marktplätze laufend auf Ihre Domains, Zugangsdaten und Markennamen. Taucht etwas auf, erhalten Sie einen Alarm mit klarer Handlungsempfehlung.</p>
+      <ul class="gets">
+        <li>Laufende Überwachung Ihrer Domains</li>
+        <li>Alarm bei geleakten Zugangsdaten</li>
+        <li>Monatlicher Lagebericht</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="station" id="audit" data-name="Audit">
+    <div class="copy">
+      <div class="eyebrow">Security-Audit</div>
+      <h2 data-decode>Aus dem Chaos wird ein Bericht.</h2>
+      <p>Am Ende steht ein Dokument, mit dem Geschäftsführung und IT beide arbeiten können: eine Zusammenfassung für die Entscheidung, ein technischer Teil für die Umsetzung.</p>
+      <ol class="steps">
+        <li><strong>Erstgespräch</strong><span>Ziele und Umfang festlegen</span></li>
+        <li><strong>Freigabe</strong><span>Schriftliche Beauftragung und Testfenster</span></li>
+        <li><strong>Prüfung</strong><span>Analyse und Tests im vereinbarten Rahmen</span></li>
+        <li><strong>Bericht</strong><span>Befunde, Risiken, Maßnahmen, gemeinsame Besprechung</span></li>
+        <li><strong>Nachtest</strong><span>Kontrolle, ob die Lücken geschlossen sind</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="station" id="kontakt" data-name="Kontakt">
+    <div class="copy">
+      <div class="eyebrow">Kontakt</div>
+      <h2 data-decode>Die Spur endet hier.</h2>
+      <p>Beschreiben Sie kurz Ihr Anliegen. Sie erhalten eine Rückmeldung mit Terminvorschlag für ein Erstgespräch.</p>
+      <form id="req" novalidate>
+        <label for="f-name">Name<input id="f-name" name="name" autocomplete="name" required></label>
+        <label for="f-firma">Unternehmen<input id="f-firma" name="firma" autocomplete="organization"></label>
+        <label for="f-mail">E-Mail<input id="f-mail" name="mail" type="email" autocomplete="email" required></label>
+        <label for="f-topic">Anliegen
+          <select id="f-topic" name="topic">
+            <option>Security-Audit</option><option>Penetrationstest</option><option>OSINT</option><option>Dark-Web-Monitoring</option><option>Noch unklar</option>
+          </select>
+        </label>
+        <label for="f-msg">Nachricht<textarea id="f-msg" name="msg"></textarea></label>
+        <button class="btn" type="submit">Anfrage absenden</button>
+        <pre id="out" hidden></pre>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>© ZeroTrace37 · Berlin</span><span>zerotrace37.com</span><span>Impressum</span><span>Datenschutz</span>
+</footer>
+
+<div class="hud" aria-hidden="true">
+  <span>Trace <b id="hud-n">01</b>/06</span>
+  <span id="hud-name">Spur</span>
+  <div class="bar"><i id="hud-bar"></i></div>
+  <span class="ph">Platzhalter-Animation</span>
+</div>
+
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cv = document.getElementById('stage'), cx = cv.getContext('2d');
+  var secs = [].slice.call(document.querySelectorAll('.station'));
+  var N = 180, W = 0, H = 0, dpr = 1;
+  var seed = 37; function rnd(){ seed = (seed*16807) % 2147483647; return seed/2147483647; }
+  var R = []; for (var i=0;i<N;i++) R.push([rnd(),rnd(),rnd()]);
+  var lineLen = []; for (var r=0;r<15;r++) lineLen.push(r%5===0 ? 5 : 7 + Math.floor(rnd()*5));
+
+  // six formations of the same points: aisle, network, wall with breach, drift, report, prompt
+  function form(k,i){
+    var a = R[i], x, y;
+    if (k===0){
+      var z = ((i*7)%N)/N, Z = 1+z*7;
+      if (i%5===0){ x = 0; y = .7/Z; }
+      else { x = (i%2?1:-1)*1.05/Z; y = (((i%5)-2.5)/2.5*.7)/Z; }
+    } else if (k===1){
+      var ang = a[0]*6.283, rad = Math.pow(a[1],.7)*.85; x = Math.cos(ang)*rad; y = Math.sin(ang)*rad*.8;
+    } else if (k===2){
+      var col = i%15, row = Math.floor(i/15);
+      x = (col-7+(row%2)*.5)/7.5*.85; y = (row-5.5)/5.5*.75;
+      var d = Math.sqrt(x*x+y*y); if (d<.28 && d>0){ var p = (.28-d)*1.3; x += x/d*p; y += y/d*p; }
+    } else if (k===3){
+      x = (a[0]*2-1)*1.1; y = (a[1]*2-1)*.95;
+    } else if (k===4){
+      var rw = Math.floor(i/12), c = Math.min(i%12, lineLen[rw]);
+      x = (c-5.5)/5.5*.45; y = (rw-7)/7*.78;
+    } else {
+      x = -.6 + (i/N)*.7; y = .05;
+    }
+    return [x,y];
+  }
+  var F = []; for (var k=0;k<6;k++){ var arr=[]; for (i=0;i<N;i++) arr.push(form(k,i)); F.push(arr); }
+  var LINK = [.5,.9,.55,.12,.3,.7], DRIFT = [.004,.012,.004,.03,.002,.002];
+
+  function size(){
+    dpr = Math.min(window.devicePixelRatio||1, 2);
+    W = cv.clientWidth; H = cv.clientHeight;
+    cv.width = W*dpr; cv.height = H*dpr; cx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  function mix(a,b,t){ return a+(b-a)*t; }
+
+  var hudN = document.getElementById('hud-n'), hudName = document.getElementById('hud-name'), hudBar = document.getElementById('hud-bar');
+  function state(){
+    var mid = window.scrollY + window.innerHeight/2, k = 0;
+    for (var j=0;j<secs.length;j++) if (secs[j].offsetTop <= mid) k = j;
+    var top = secs[k].offsetTop, next = k<5 ? secs[k+1].offsetTop : top + secs[k].offsetHeight;
+    var fr = Math.max(0, Math.min(1, (mid-top)/(next-top)));
+    var t = k<5 ? Math.max(0,(fr-.55)/.45) : 0; t = t*t*(3-2*t);
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    return {k:k, t:t, p: max>0 ? window.scrollY/max : 0};
+  }
+
+  function draw(time){
+    var s = state(), k = s.k, k2 = Math.min(5,k+1), t = s.t;
+    hudN.textContent = '0'+(k+1); hudName.textContent = secs[k].dataset.name; hudBar.style.width = (s.p*100)+'%';
+    cx.clearRect(0,0,W,H);
+    var wide = W > 760, sc = Math.min(W,H)*.46, ox = W*(wide?.68:.5), oy = H*.5;
+    var link = mix(LINK[k],LINK[k2],t), drift = reduce ? 0 : mix(DRIFT[k],DRIFT[k2],t);
+    var red = k===2 ? 1-t : (k2===2 ? t : 0);
+    var P = [], tt = time/1000;
+    for (var i=0;i<N;i++){
+      var a = F[k][i], b = F[k2][i];
+      var x = mix(a[0],b[0],t) + Math.sin(tt*.5+i*1.7)*drift;
+      var y = mix(a[1],b[1],t) + Math.cos(tt*.4+i*2.3)*drift;
+      P.push([ox+x*sc, oy+y*sc]);
+    }
+    var th = sc*.13, th2 = th*th;
+    cx.lineWidth = 1;
+    for (i=0;i<N;i++) for (var j=i+1;j<N;j++){
+      var dx = P[i][0]-P[j][0], dy = P[i][1]-P[j][1], d2 = dx*dx+dy*dy;
+      if (d2 < th2 && d2 > 1){
+        cx.strokeStyle = 'rgba(0,255,136,'+(link*(1-d2/th2)*.5).toFixed(3)+')';
+        cx.beginPath(); cx.moveTo(P[i][0],P[i][1]); cx.lineTo(P[j][0],P[j][1]); cx.stroke();
+      }
+    }
+    for (i=0;i<N;i++){
+      var isRed = red>0 && i%23===0;
+      cx.fillStyle = isRed ? 'rgba(255,77,77,'+(.4+.6*red)+')' : 'rgba(0,255,136,'+(.35+R[i][2]*.6)+')';
+      var r = isRed ? 2+2*red : 1+R[i][2]*1.4;
+      cx.fillRect(P[i][0]-r/2, P[i][1]-r/2, r, r);
+    }
+    // cursor block at the end of the trace
+    var cur = k===5 ? 1 : (k2===5 ? t : 0);
+    if (cur>0 && (reduce || Math.floor(tt*2)%2===0)){
+      cx.fillStyle = 'rgba(0,255,136,'+cur+')';
+      cx.fillRect(ox+.12*sc, oy+.05*sc-9, 10, 18);
+    }
+  }
+  var ticking = false;
+  function loop(t){ draw(t); if (!reduce) requestAnimationFrame(loop); }
+  size();
+  addEventListener('resize', function(){ size(); if (reduce) draw(0); });
+  if (reduce){
+    draw(0);
+    addEventListener('scroll', function(){ if(!ticking){ ticking=true; requestAnimationFrame(function(){ draw(0); ticking=false; }); } }, {passive:true});
+  } else requestAnimationFrame(loop);
+
+  // headline decode, once per station
+  if (!reduce && 'IntersectionObserver' in window){
+    var G = '01<>/#_$%&';
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if (!e.isIntersecting) return; io.unobserve(e.target);
+        var el = e.target, txt = el.textContent, t0 = performance.now(), dur = 700;
+        el.setAttribute('aria-label', txt);
+        (function step(now){
+          var p = Math.min(1,(now-t0)/dur), n = Math.floor(p*txt.length), o = txt.slice(0,n);
+          for (var i=n;i<txt.length;i++) o += txt[i]===' ' ? ' ' : G[Math.floor(Math.random()*G.length)];
+          el.textContent = o;
+          if (p<1) requestAnimationFrame(step); else el.textContent = txt;
+        })(t0);
+      });
+    }, {threshold:.6});
+    document.querySelectorAll('[data-decode]').forEach(function(el){ io.observe(el); });
+  }
+
+  // contact form: preview only, nothing is sent
+  document.getElementById('req').addEventListener('submit', function(e){
+    e.preventDefault();
+    var f = e.target, out = document.getElementById('out');
+    if (!f.name.value.trim() || !f.mail.validity.valid || !f.mail.value){
+      out.textContent = '> Bitte Name und eine gültige E-Mail-Adresse eintragen.';
+    } else {
+      out.textContent = '> Anfrage erfasst: ' + f.topic.value + '\n> Vorschau: Das Formular ist noch nicht angebunden, es wurde nichts versendet.';
+    }
+    out.hidden = false;
+  });
+})();
+</script>
+</body>
+</html>
