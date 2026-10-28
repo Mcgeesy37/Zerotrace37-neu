@@ -22,6 +22,7 @@ ZeroTrace37 bietet Penetration Testing, Incident Response, Betrugsermittlung, OS
 
 ## Tools
 
+- [Local AI-Kit](https://zerotrace37.com/local-ai-kit.html): Lokale, unzensierte KI zum Selbstbetreiben (Ollama + Open WebUI per Docker), offline, ohne Abo, mit 12 fertigen Prompt-Rollen. Einmalkauf 29,99 EUR.
 - [Security-Tools Shop](https://tracekeeper.gumroad.com): Eigenständige Single-File-Sicherheitstools für Audits, OSINT und DSGVO-Checks — sofort einsetzbar, ohne Abo.
 
 ## Kontakt
